@@ -1,6 +1,8 @@
 import { View, Text, SafeAreaView, Platform, StatusBar, TouchableOpacity } from 'react-native'
 import React from 'react'
 import AppText from '../components/AppText'
+import color from '../styles/color'
+import AppButton from '../components/AppButton'
 
 const StartScreen = ({ navigation }) => {
     return (
@@ -8,7 +10,7 @@ const StartScreen = ({ navigation }) => {
             style={{
                 paddingTop: Platform.OS == 'android' ? StatusBar.currentHeight : 0,
                 flex: 1,
-                backgroundColor: '#F2EDE8',
+                backgroundColor: color.BGcolor,
                 paddingHorizontal: 20,
             }}
         >
@@ -17,7 +19,7 @@ const StartScreen = ({ navigation }) => {
                 flex: 1,
                 justifyContent: 'center',
             }}>
-                <AppText content={'Calories Tracker'} fontSize={25} fontWeight='bold' />
+                <AppText content={'Calories Tracker'} fontSize={30} fontWeight='bold' />
             </View>
 
             <View
@@ -25,20 +27,8 @@ const StartScreen = ({ navigation }) => {
                     bottom: 40,
                 }}
             >
-                <TouchableOpacity
-                    onPress={
-                        () => navigation.navigate('Register')
-                    }
-                    style={{
-                        backgroundColor: '#21BA3A',
-                        height: 50,
-                        borderRadius: 10,
-                        alignItems: "center",
-                        justifyContent: "center",
-                    }}
-                >
-                    <AppText content={'GET STARTED'} color='#fff' fontWeight={'bold'} />
-                </TouchableOpacity>
+
+                <AppButton label={'GET STARTED'} onPress={() => navigation.navigate('Register')} />
 
                 <View
                     style={{
