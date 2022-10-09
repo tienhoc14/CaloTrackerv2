@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, Platform, StatusBar, TouchableOpacity } from 'react-native'
+import { View, SafeAreaView, StatusBar, TouchableOpacity } from 'react-native'
 import React from 'react'
 import AppText from '../components/AppText'
 import color from '../styles/color'
@@ -8,7 +8,7 @@ const StartScreen = ({ navigation }) => {
     return (
         <SafeAreaView
             style={{
-                paddingTop: Platform.OS == 'android' ? StatusBar.currentHeight : 0,
+                paddingTop: StatusBar.currentHeight,
                 flex: 1,
                 backgroundColor: color.BGcolor,
                 paddingHorizontal: 20,
@@ -28,7 +28,7 @@ const StartScreen = ({ navigation }) => {
                 }}
             >
 
-                <AppButton label={'GET STARTED'} onPress={() => navigation.navigate('Register')} />
+                <AppButton label={'GET STARTED'} onPress={()=>navigation.navigate('Goal')} />
 
                 <View
                     style={{

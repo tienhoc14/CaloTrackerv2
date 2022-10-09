@@ -18,7 +18,7 @@ const RegisterScreen = ({ navigation }) => {
         paddingTop: StatusBar.currentHeight + 10,
         flex: 1,
         backgroundColor: color.BGcolor,
-        paddingHorizontal: 15,
+        paddingHorizontal: 20,
       }}
     >
 
@@ -32,7 +32,7 @@ const RegisterScreen = ({ navigation }) => {
           onPress={() => navigation.goBack()}
           style={{
             position: 'absolute',
-            left: 0
+            left: -5,
           }} />
         <AppText content={'Create account'} fontSize={20} fontWeight={'bold'} />
       </View>

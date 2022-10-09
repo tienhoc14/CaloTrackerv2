@@ -16,7 +16,7 @@ const LoginScreen = ({ navigation }) => {
         paddingTop: StatusBar.currentHeight + 10,
         flex: 1,
         backgroundColor: color.BGcolor,
-        paddingHorizontal: 15,
+        paddingHorizontal: 20,
       }}
     >
 
@@ -30,7 +30,7 @@ const LoginScreen = ({ navigation }) => {
           onPress={() => navigation.goBack()}
           style={{
             position: 'absolute',
-            left: 0
+            left: -5,
           }} />
         <AppText content={'Login'} fontSize={20} fontWeight={'bold'} />
       </View>

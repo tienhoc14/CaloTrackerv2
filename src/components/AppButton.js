@@ -1,13 +1,14 @@
 import { TouchableOpacity } from 'react-native'
 import React from 'react'
 import AppText from './AppText'
+import color from '../styles/color'
 
 const AppButton = ({ label, onPress }) => {
   return (
     <TouchableOpacity
       onPress={onPress}
       style={{
-        backgroundColor: '#21BA3A',
+        backgroundColor: color.PrimaryColor,
         height: 50,
         borderRadius: 10,
         alignItems: "center",
