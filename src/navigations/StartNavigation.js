@@ -9,6 +9,7 @@ import GenderScreen from '../screens/registration/GenderScreen';
 import BirthdayScreen from '../screens/registration/BirthdayScreen';
 import BodyIndexScreen from '../screens/registration/BodyIndexScreen';
 import ProgressScreen from '../screens/registration/ProgressScreen';
+import BottomNavigation from './BottomNavigation';
 
 const Stack = createNativeStackNavigator()
 
@@ -24,6 +25,7 @@ const StartNavigation = () => {
             <Stack.Screen name='BodyIndex' component={BodyIndexScreen} />
             <Stack.Screen name='Progress' component={ProgressScreen} />
             <Stack.Screen name='Register' component={RegisterScreen} />
+            <Stack.Screen name='BottomMenu' component={BottomNavigation} />
         </Stack.Navigator>
     )
 }

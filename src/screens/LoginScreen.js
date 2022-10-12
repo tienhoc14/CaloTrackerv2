@@ -77,7 +77,7 @@ const LoginScreen = ({ navigation }) => {
       </View>
       <View
         style={{ bottom: 40 }}>
-        <AppButton label={'LOG IN'} onPress={() => { }} />
+        <AppButton label={'LOG IN'} onPress={() => { navigation.navigate('BottomMenu')}} />
       </View>
     </View>
   )

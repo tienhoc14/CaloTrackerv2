@@ -1,13 +1,38 @@
-import { View, StatusBar, Text } from 'react-native'
-import React from 'react'
+import { View, StatusBar, Text, Button, TouchableOpacity } from 'react-native'
+import React, { useState } from 'react'
 import LoadingBar from '../../components/LoadingBar'
 import color from '../../styles/color'
 import AppButton from '../../components/AppButton'
 import AppText from '../../components/AppText'
-import RadioButton from '../../components/RadioButton'
 import note from '../../utils/note'
+import { DateTimePickerAndroid } from '@react-native-community/datetimepicker'
 
 const BirthdayScreen = ({ navigation }) => {
+
+    const [date, setDate] = useState(new Date());
+
+    const maxDate = new Date().getFullYear() - 18
+    const minDate = maxDate - 62
+
+    const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate;
+        setDate(currentDate);
+    };
+
+    const showMode = (currentMode) => {
+        DateTimePickerAndroid.open({
+            value: date,
+            onChange,
+            mode: currentMode,
+            maximumDate: new Date(maxDate, 11, 31),
+            minimumDate: new Date(minDate, 0, 1)
+        });
+    };
+
+    const showDatepicker = () => {
+        showMode('date');
+    };
+
     return (
         <View
             style={{
@@ -30,6 +55,22 @@ const BirthdayScreen = ({ navigation }) => {
                     }}>
                     <AppText content={'What is your date of birth?'} fontSize={20} />
                 </View>
+
+                <TouchableOpacity
+                    onPress={showDatepicker}
+                    style={{
+                        borderWidth: 2,
+                        borderColor: color.PrimaryColor,
+                        width: '60%',
+                        height: 60,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        borderRadius: 30,
+                    }}
+                >
+                    <AppText content={date == Date() ? 'Choose date' : date.toDateString()}
+                        fontWeight={'bold'} />
+                </TouchableOpacity>
 
             </View>
 
