@@ -1,10 +1,14 @@
 import { View, Text } from 'react-native'
 import React from 'react'
+import style from '../../styles/tabsStyle'
+import HeaderBar from '../../components/HeaderBar'
 
 const ProgressScreen = () => {
   return (
-    <View>
-      <Text>ProgressScreen</Text>
+    <View
+      style={style.container}
+    >
+      <HeaderBar title={'Progress'} />
     </View>
   )
 }

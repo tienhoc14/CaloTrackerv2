@@ -10,6 +10,7 @@ import { DateTimePickerAndroid } from '@react-native-community/datetimepicker'
 const BirthdayScreen = ({ navigation }) => {
 
     const [date, setDate] = useState(new Date());
+    const [dateString, setDateString] = useState('Choose date')
 
     const maxDate = new Date().getFullYear() - 18
     const minDate = maxDate - 62
@@ -17,6 +18,10 @@ const BirthdayScreen = ({ navigation }) => {
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate;
         setDate(currentDate);
+
+        let tempDate = new Date(currentDate)
+        let dateString = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear()
+        setDateString(dateString)
     };
 
     const showMode = (currentMode) => {
@@ -68,8 +73,7 @@ const BirthdayScreen = ({ navigation }) => {
                         borderRadius: 30,
                     }}
                 >
-                    <AppText content={date == Date() ? 'Choose date' : date.toDateString()}
-                        fontWeight={'bold'} />
+                    <AppText content={dateString} fontWeight={'bold'} />
                 </TouchableOpacity>
 
             </View>
