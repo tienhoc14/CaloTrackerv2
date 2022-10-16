@@ -7,11 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 const LoadingBar = ({ index, onpress }) => {
 
     const color = (i) => {
-        if (i <= index) {
-            return '#21BA3A'
-        } else {
-            return 'black'
-        }
+        return i <= index ? '#21BA3A' : 'black'
     }
 
     return (
