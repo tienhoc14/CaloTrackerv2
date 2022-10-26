@@ -97,7 +97,7 @@ const RegisterScreen = ({ navigation }) => {
       </View>
       <View
         style={{ bottom: 40 }}>
-        <AppButton label={'LOG IN'} onPress={() => { }} />
+        <AppButton label={'REGISTER'} onPress={() => { navigation.navigate('BottomMenu') }} />
       </View>
     </View>
   )

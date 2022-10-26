@@ -1,4 +1,4 @@
-import { View, Text, StatusBar, Dimensions, TouchableOpacity, ScrollView } from 'react-native'
+import { View, TouchableOpacity, ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import HeaderBar from '../../components/HeaderBar'
 import style from '../../styles/tabsStyle'
@@ -35,10 +35,9 @@ const DiaryScreen = ({ navigation }) => {
 
       <View
         style={{
-          paddingTop: 40,
+          paddingTop: 20,
           flexDirection: 'row',
           alignItems: 'center',
-          justifyContent: 'space-around',
         }}
       >
         <View style={{ alignItems: 'center', flex: 1 }}>
@@ -69,11 +68,35 @@ const DiaryScreen = ({ navigation }) => {
         </View>
       </View>
 
+      <TouchableOpacity
+        onPress={() => { }}
+        style={{
+          backgroundColor: '#fff',
+          borderRadius: 10,
+          paddingVertical: 15,
+          paddingHorizontal: 15,
+          marginTop: 15,
+          flexDirection: 'row',
+        }}>
+        <View style={{ alignItems: 'center', flex: 1, }}>
+          <AppText content={'Carbs'} />
+          <AppText content={'0/333g'} />
+        </View>
+        <View style={{ alignItems: 'center', flex: 1, }}>
+          <AppText content={'Protein'} />
+          <AppText content={'0/333g'} />
+        </View>
+        <View style={{ alignItems: 'center', flex: 1, }}>
+          <AppText content={'Fat'} />
+          <AppText content={'0/333g'} />
+        </View>
+      </TouchableOpacity>
+
       <View style={{
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        marginVertical: 20,
+        marginVertical: 10,
       }}>
         <Ionicons name="caret-back-outline" size={24} color="grey" />
 
@@ -153,7 +176,7 @@ const DiaryScreen = ({ navigation }) => {
 
         </View>
 
-        <Meal mealTitle={'Brealfast'} calo={456} description={'Recommended 500 calories'} />
+        <Meal mealTitle={'Brealfast'} calo={123} description={'Recommended 500 calories'} />
         <Meal mealTitle={'Lunch'} description={'Recommended 500 calories'} />
         <Meal mealTitle={'Dinner'} description={'Recommended 500 calories'} />
         <Meal mealTitle={'Snacks'} description={'Recommended 500 calories'} />

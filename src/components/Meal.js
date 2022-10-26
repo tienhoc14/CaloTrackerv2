@@ -1,4 +1,4 @@
-import { TouchableOpacity, View, } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import AppText from './AppText'
 import { Ionicons } from '@expo/vector-icons';
@@ -10,7 +10,8 @@ const Meal = ({ mealTitle, description, calo }) => {
             style={{
                 backgroundColor: '#fff',
                 borderRadius: 10,
-                paddingVertical: 15,
+                paddingTop: 15,
+                paddingBottom: calo ? 10 : 15,
                 paddingHorizontal: 30,
                 marginTop: 15,
             }}>
@@ -30,7 +31,7 @@ const Meal = ({ mealTitle, description, calo }) => {
                 </TouchableOpacity>
             </View>
 
-            {calo > 0 && (
+            {calo && (
                 <View style={{
                     alignItems: 'center',
                     borderTopColor: '#ccc',
