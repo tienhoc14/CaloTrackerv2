@@ -2,8 +2,11 @@ import { TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import AppText from './AppText'
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 const Meal = ({ mealTitle, description, calo }) => {
+    const navigation = useNavigation()
+
     return (
         <TouchableOpacity
             onPress={() => { }}
@@ -26,7 +29,7 @@ const Meal = ({ mealTitle, description, calo }) => {
                     <AppText content={description} fontSize={12} />
                 </View>
                 <TouchableOpacity
-                    onPress={() => { }}>
+                    onPress={() => { navigation.navigate('Tracking') }}>
                     <Ionicons name="ios-add-circle" size={30} color={'#ccc'} />
                 </TouchableOpacity>
             </View>

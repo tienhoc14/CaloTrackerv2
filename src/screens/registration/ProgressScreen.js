@@ -29,7 +29,7 @@ const ProgressScreen = ({ navigation }) => {
                 paddingHorizontal: 20,
             }}
         >
-            <LoadingBar index={5} onpress={() => navigation.goBack()} />
+            <LoadingBar index={5} />
 
             <View style={{
                 flex: 1,

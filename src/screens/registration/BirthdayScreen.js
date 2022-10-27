@@ -47,7 +47,7 @@ const BirthdayScreen = ({ navigation }) => {
                 paddingHorizontal: 20,
             }}
         >
-            <LoadingBar index={3} onpress={() => navigation.goBack()} />
+            <LoadingBar index={3} />
 
             <View style={{
                 flex: 1,

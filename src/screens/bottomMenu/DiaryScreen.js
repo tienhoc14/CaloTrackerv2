@@ -9,8 +9,10 @@ import color from '../../styles/color'
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Meal from '../../components/Meal'
+import { useNavigation } from '@react-navigation/native'
 
-const DiaryScreen = ({ navigation }) => {
+const DiaryScreen = ({ }) => {
+  const navigation = useNavigation()
 
   const [eaten, setEaten] = useState(2000)
   const [burned, setBurned] = useState(389)

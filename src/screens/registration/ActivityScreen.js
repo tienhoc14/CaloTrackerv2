@@ -17,7 +17,7 @@ const ActivityScreen = ({ navigation }) => {
                 paddingHorizontal: 20,
             }}
         >
-            <LoadingBar index={1} onpress={() => navigation.goBack()} />
+            <LoadingBar index={1} />
 
             <View style={{
                 flex: 1,

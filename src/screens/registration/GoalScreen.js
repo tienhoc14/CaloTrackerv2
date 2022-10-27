@@ -18,7 +18,7 @@ const GoalScreen = ({ navigation }) => {
                 paddingHorizontal: 20,
             }}
         >
-            <LoadingBar index={0} onpress={() => navigation.goBack()} />
+            <LoadingBar index={0} />
 
             <View style={{
                 flex: 1,

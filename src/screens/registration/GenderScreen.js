@@ -17,7 +17,7 @@ const GenderScreen = ({ navigation }) => {
                 paddingHorizontal: 20,
             }}
         >
-            <LoadingBar index={2} onpress={() => navigation.goBack()} />
+            <LoadingBar index={2} />
 
             <View style={{
                 flex: 1,

@@ -20,7 +20,7 @@ const BodyIndexScreen = ({ navigation }) => {
                 paddingHorizontal: 20,
             }}
         >
-            <LoadingBar index={4} onpress={() => navigation.goBack()} />
+            <LoadingBar index={4} />
 
             <View style={{
                 flex: 1,

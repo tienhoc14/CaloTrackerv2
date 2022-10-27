@@ -3,9 +3,10 @@ import React from 'react'
 
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
-const LoadingBar = ({ index, onpress }) => {
-
+const LoadingBar = ({ index }) => {
+    const navigation = useNavigation()
     const color = (i) => {
         return i <= index ? '#21BA3A' : 'black'
     }
@@ -17,7 +18,7 @@ const LoadingBar = ({ index, onpress }) => {
             }}
         >
             <Ionicons name="caret-back-outline" size={24} color="black"
-                onPress={onpress}
+                onPress={() => { navigation.goBack() }}
                 style={{
                     position: 'absolute',
                     left: -5,
