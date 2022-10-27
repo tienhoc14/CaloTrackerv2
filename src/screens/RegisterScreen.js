@@ -6,11 +6,29 @@ import AppText from '../components/AppText'
 import { Ionicons } from '@expo/vector-icons';
 import AppButton from '../components/AppButton';
 import { MaterialIcons } from '@expo/vector-icons';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../firebaseConfig';
 
 const RegisterScreen = ({ navigation }) => {
 
   const [focusOn, setFocusOn] = useState(0)
   const [visible, setVisible] = useState(false)
+
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [fullName, setFullName] = useState('')
+
+  const handleRegister = () => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        console.log('register');
+        console.log(userCredential.user.email);
+        navigation.navigate('BottomMenu')
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  }
 
   return (
     <View
@@ -64,6 +82,9 @@ const RegisterScreen = ({ navigation }) => {
           }}
         >
           <TextInput placeholder='Email'
+            value={email}
+            onChangeText={text => setEmail(text)}
+            keyboardType='email-address'
             onFocus={() => { setFocusOn(3) }}
           />
         </View>
@@ -78,6 +99,8 @@ const RegisterScreen = ({ navigation }) => {
           }}
         >
           <TextInput placeholder='Password'
+            value={password}
+            onChangeText={text => setPassword(text)}
             onFocus={() => { setFocusOn(2) }}
             secureTextEntry={visible ? false : true} />
 
@@ -97,7 +120,7 @@ const RegisterScreen = ({ navigation }) => {
       </View>
       <View
         style={{ bottom: 40 }}>
-        <AppButton label={'REGISTER'} onPress={() => { navigation.navigate('BottomMenu') }} />
+        <AppButton label={'REGISTER'} onPress={handleRegister} />
       </View>
     </View>
   )

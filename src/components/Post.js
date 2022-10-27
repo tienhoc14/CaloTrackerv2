@@ -3,10 +3,10 @@ import React, { useState } from 'react'
 import { Menu, MenuItem } from 'react-native-material-menu';
 
 import AppText from './AppText'
-
 import { Feather } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import { auth } from '../../firebaseConfig';
 
 const Post = ({ urlImage }) => {
     let avatar = require('../../assets/images/avatar_profile.png')
@@ -32,7 +32,7 @@ const Post = ({ urlImage }) => {
                 flexDirection: 'row',
                 alignItems: 'center',
             }}>
-                
+
                 <Image source={avatar} style={{ width: 40, height: 40, borderRadius: 20 }} />
                 <View style={{ marginLeft: 10, }}>
                     <AppText content={'username'} fontWeight={'bold'} />
@@ -58,7 +58,8 @@ const Post = ({ urlImage }) => {
             </View>
 
             <View style={{ paddingTop: 10, }}>
-                <AppText content={'title of post'} />
+                {/* <AppText content={'title of post'} /> */}
+                <AppText content={auth.currentUser?.email} />
                 {/* image posted */}
                 <Image source={urlImage} style={{
                     marginTop: 10,

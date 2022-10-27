@@ -3,8 +3,12 @@ import React from 'react'
 
 import { Ionicons } from '@expo/vector-icons';
 import AppText from './AppText';
+import { useNavigation } from '@react-navigation/native';
 
-const HeaderBar = ({ title, navigation }) => {
+const HeaderBar = ({ title }) => {
+
+    const navigation = useNavigation()
+
     return (
         <View
             style={{
@@ -17,7 +21,7 @@ const HeaderBar = ({ title, navigation }) => {
                 <Ionicons name="person-circle" size={28} color="black" />
             </TouchableOpacity>
             <AppText content={title} fontSize={18} />
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => { navigation.navigate('Settings') }} >
                 <Ionicons name="settings-outline" size={28} color="black" />
             </TouchableOpacity>
         </View>

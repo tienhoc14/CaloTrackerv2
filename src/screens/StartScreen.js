@@ -1,10 +1,26 @@
-import { View, SafeAreaView, StatusBar, TouchableOpacity } from 'react-native'
-import React from 'react'
+import { View, SafeAreaView, StatusBar, TouchableOpacity, ActivityIndicator } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import AppText from '../components/AppText'
 import color from '../styles/color'
 import AppButton from '../components/AppButton'
+import { auth } from '../../firebaseConfig'
 
 const StartScreen = ({ navigation }) => {
+
+    const [isLoading, setIsLoading] = useState(true)
+
+    useEffect(() => {
+        const unsubcribe = auth.onAuthStateChanged(user => {
+            if (user) {
+                navigation.replace('AppStack')
+            } else {
+                setIsLoading(false)
+            }
+        })
+
+        return unsubcribe
+    }, [])
+
     return (
         <SafeAreaView
             style={{
@@ -27,25 +43,29 @@ const StartScreen = ({ navigation }) => {
                     bottom: 40,
                 }}
             >
+                {isLoading ? <ActivityIndicator size={'large'} color={color.PrimaryColor} /> :
+                    <>
+                        <AppButton label={'GET STARTED'} onPress={() => navigation.navigate('Goal')} />
 
-                <AppButton label={'GET STARTED'} onPress={()=>navigation.navigate('Goal')} />
-
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        justifyContent: 'center',
-                        paddingTop: 30,
-                    }}
-                >
-                    <AppText content={'Already have an account? '} />
-                    <TouchableOpacity
-                        onPress={
-                            () => navigation.navigate('Login')
-                        }>
-                        <AppText content={'Login'} color={'#21BA3A'} />
-                    </TouchableOpacity>
-                </View>
+                        <View
+                            style={{
+                                flexDirection: 'row',
+                                justifyContent: 'center',
+                                paddingTop: 30,
+                            }}
+                        >
+                            <AppText content={'Already have an account? '} />
+                            <TouchableOpacity
+                                onPress={
+                                    () => navigation.navigate('Login')
+                                }>
+                                <AppText content={'Login'} color={color.PrimaryColor} />
+                            </TouchableOpacity>
+                        </View>
+                    </>
+                }
             </View>
+
         </SafeAreaView>
     )
 }

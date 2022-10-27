@@ -5,10 +5,30 @@ import color from '../styles/color'
 import AppText from '../components/AppText'
 import { Ionicons } from '@expo/vector-icons';
 import AppButton from '../components/AppButton';
+import { MaterialIcons } from '@expo/vector-icons';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../firebaseConfig';
+
 
 const LoginScreen = ({ navigation }) => {
 
   const [focusOn, setFocusOn] = useState(0)
+  const [visible, setVisible] = useState(false)
+
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const handleLogin = () => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        console.log('login');
+        console.log(userCredential.user.email);
+        navigation.navigate('AppStack')
+      })
+      .catch((error) => {
+        console.log(error.message)
+      });
+  }
 
   return (
     <View
@@ -49,6 +69,9 @@ const LoginScreen = ({ navigation }) => {
           }}
         >
           <TextInput placeholder='Email'
+            keyboardType='email-address'
+            value={email}
+            onChangeText={text => setEmail(text)}
             onFocus={() => { setFocusOn(1) }}
           />
         </View>
@@ -62,8 +85,19 @@ const LoginScreen = ({ navigation }) => {
           }}
         >
           <TextInput placeholder='Password'
+            value={password}
+            onChangeText={text => setPassword(text)}
             onFocus={() => { setFocusOn(2) }}
-            secureTextEntry={true} />
+            secureTextEntry={visible ? false : true} />
+
+          <MaterialIcons name={visible ? 'visibility' : 'visibility-off'} size={24} color="#878685"
+            onPress={() => {
+              setVisible(!visible)
+            }}
+            style={{
+              position: 'absolute',
+              right: 0,
+            }} />
         </View>
 
         <TouchableOpacity
@@ -77,7 +111,7 @@ const LoginScreen = ({ navigation }) => {
       </View>
       <View
         style={{ bottom: 40 }}>
-        <AppButton label={'LOG IN'} onPress={() => { navigation.navigate('BottomMenu')}} />
+        <AppButton label={'LOG IN'} onPress={handleLogin} />
       </View>
     </View>
   )
