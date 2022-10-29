@@ -178,7 +178,7 @@ const DiaryScreen = ({ }) => {
 
         </View>
 
-        <Meal mealTitle={'Brealfast'} calo={123} description={'Recommended 500 calories'} />
+        <Meal mealTitle={'Breakfast'} calo={123} description={'Recommended 500 calories'} />
         <Meal mealTitle={'Lunch'} description={'Recommended 500 calories'} />
         <Meal mealTitle={'Dinner'} description={'Recommended 500 calories'} />
         <Meal mealTitle={'Snacks'} description={'Recommended 500 calories'} />

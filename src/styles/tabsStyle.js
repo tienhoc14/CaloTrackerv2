@@ -6,9 +6,14 @@ const style = StyleSheet.create({
         flex: 1,
         backgroundColor: color.BGcolor,
         paddingTop: StatusBar.currentHeight,
-        paddingHorizontal: 20,
+        paddingHorizontal: 15,
     },
-
+    tabFood: {
+        alignItems: "center",
+        flex: 1,
+        borderBottomWidth: 1,
+        padding: 5,
+    }
 })
 
 export default style

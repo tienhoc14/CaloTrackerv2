@@ -20,7 +20,9 @@ const HeaderBar = ({ title }) => {
             <TouchableOpacity onPress={() => { navigation.navigate('Profile') }} >
                 <Ionicons name="person-circle" size={28} color="black" />
             </TouchableOpacity>
+
             <AppText content={title} fontSize={18} />
+
             <TouchableOpacity onPress={() => { navigation.navigate('Settings') }} >
                 <Ionicons name="settings-outline" size={28} color="black" />
             </TouchableOpacity>

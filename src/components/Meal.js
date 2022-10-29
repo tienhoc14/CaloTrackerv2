@@ -29,7 +29,11 @@ const Meal = ({ mealTitle, description, calo }) => {
                     <AppText content={description} fontSize={12} />
                 </View>
                 <TouchableOpacity
-                    onPress={() => { navigation.navigate('Tracking') }}>
+                    onPress={() => {
+                        navigation.navigate('Tracking', {
+                            mealTitle: mealTitle
+                        })
+                    }}>
                     <Ionicons name="ios-add-circle" size={30} color={'#ccc'} />
                 </TouchableOpacity>
             </View>

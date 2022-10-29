@@ -69,6 +69,7 @@ const LoginScreen = ({ navigation }) => {
           }}
         >
           <TextInput placeholder='Email'
+            style={{ fontFamily: 'monospace' }}
             keyboardType='email-address'
             value={email}
             onChangeText={text => setEmail(text)}
@@ -85,6 +86,7 @@ const LoginScreen = ({ navigation }) => {
           }}
         >
           <TextInput placeholder='Password'
+            style={{ fontFamily: 'monospace' }}
             value={password}
             onChangeText={text => setPassword(text)}
             onFocus={() => { setFocusOn(2) }}
