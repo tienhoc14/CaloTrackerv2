@@ -20,7 +20,7 @@ const TrackingNavigation = () => {
                 tabBarIndicatorStyle: {
                     borderBottomColor: color.PrimaryColor,
                     borderBottomWidth: 1,
-                    height: 1
+                    height: 1,
                 },
                 tabBarShowLabel: false,
                 tabBarActiveTintColor: color.PrimaryColor,

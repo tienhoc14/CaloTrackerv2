@@ -34,6 +34,7 @@ const TrackingScreen = ({ route }) => {
                 flexDirection: 'row',
                 alignItems: 'center',
                 marginTop: 30,
+                marginBottom: 20,
                 marginHorizontal: '5%',
             }}>
 
