@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
 const Meal = ({ mealTitle, description, calo }) => {
+    
     const navigation = useNavigation()
 
     return (

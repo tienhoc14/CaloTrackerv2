@@ -26,7 +26,7 @@ const LoginScreen = ({ navigation }) => {
         navigation.navigate('AppStack')
       })
       .catch((error) => {
-        console.log(error.message)
+        console.log(error)
       });
   }
 

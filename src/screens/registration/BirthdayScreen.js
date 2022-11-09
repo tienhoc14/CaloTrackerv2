@@ -83,7 +83,10 @@ const BirthdayScreen = ({ navigation }) => {
                     <AppText content={note.content} fontSize={12} />
                 </Text>
 
-                <AppButton label={'NEXT'} onPress={() => navigation.navigate('BodyIndex')} />
+                <AppButton label={'NEXT'} onPress={() => {
+                    navigation.navigate('BodyIndex')
+                    console.log(dateString);
+                }} />
 
             </View>
 

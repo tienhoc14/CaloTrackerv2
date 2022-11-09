@@ -1,6 +1,7 @@
+import { LogBox } from "react-native";
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { LogBox } from "react-native";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDdNV1yhj6XG480axezr_rzpiu4rW2KJ7o",
@@ -17,7 +18,8 @@ const app = initializeApp(firebaseConfig);
 
 // Initialize Firebase Authentication and get a reference to the service
 const auth = getAuth(app);
+const db = getFirestore(app);
 
-export { auth }
+export { auth, db }
 
 LogBox.ignoreLogs(['AsyncStorage has been extracted from react-native core and will be removed in a future release']);

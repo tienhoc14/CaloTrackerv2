@@ -1,5 +1,5 @@
 import { View, StatusBar, Text } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import LoadingBar from '../../components/LoadingBar'
 import color from '../../styles/color'
 import AppButton from '../../components/AppButton'
@@ -8,6 +8,9 @@ import RadioButton from '../../components/RadioButton'
 import note from '../../utils/note'
 
 const ActivityScreen = ({ navigation }) => {
+
+    const [activity, setActivity] = useState('')
+
     return (
         <View
             style={{
@@ -31,7 +34,8 @@ const ActivityScreen = ({ navigation }) => {
                     <AppText content={'How active are you?'} fontSize={20} />
                 </View>
 
-                <RadioButton listButton={['Not very active', 'Lightly active', 'Active', 'Very active']} />
+                <RadioButton getValue={setActivity}
+                    listButton={['Not very active', 'Lightly active', 'Active', 'Very active']} />
 
             </View>
 
@@ -40,7 +44,10 @@ const ActivityScreen = ({ navigation }) => {
                     <AppText content={note.content} fontSize={12} />
                 </Text>
 
-                <AppButton label={'NEXT'} onPress={() => navigation.navigate('Gender')} />
+                <AppButton label={'NEXT'} onPress={() => {
+                    navigation.navigate('Gender')
+                    console.log(activity);
+                }} />
 
             </View>
 

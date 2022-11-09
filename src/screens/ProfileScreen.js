@@ -90,7 +90,7 @@ const ProfileScreen = () => {
                     padding: 20,
                     marginTop: 10,
                 }}>
-                    <ItemProfile label={'Personal details'} />
+                    <ItemProfile label={'Personal details'} routeTo={'Personal Details'} />
                     <ItemProfile label={'Update goal'}
                         subLabel={'Gain 0.5 kg per week'} />
                     <ItemProfile label={'Macronutrients'}

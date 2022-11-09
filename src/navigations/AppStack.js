@@ -5,24 +5,29 @@ import BottomNavigation from './BottomNavigation';
 import SettingsScreen from '../screens/SettingsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import TrackingScreen from '../screens/TrackingScreen';
+import InformationScreen from '../screens/profile/InformationScreen';
+import FoodDetails from '../screens/FoodDetails';
 
 const Stack = createNativeStackNavigator()
 
 const AppStack = () => {
     return (
         <Stack.Navigator screenOptions={{
-            headerShown: false,
             headerTitleStyle: { fontSize: 18, },
             headerStyle: { backgroundColor: '#F2F2F2' }
         }} >
-            <Stack.Screen name='BottomMenu' component={BottomNavigation} />
-            <Stack.Screen name='Settings' component={SettingsScreen} options={{
-                headerShown: true,
+            <Stack.Screen name='BottomMenu' component={BottomNavigation} options={{
+                headerShown: false
             }} />
-            <Stack.Screen name='Profile' component={ProfileScreen} options={{
-                headerShown: true,
+            <Stack.Screen name='Settings' component={SettingsScreen} />
+            <Stack.Screen name='Profile' component={ProfileScreen} />
+            <Stack.Screen name='Tracking' component={TrackingScreen} options={{
+                headerShown: false,
             }} />
-            <Stack.Screen name='Tracking' component={TrackingScreen} />
+            <Stack.Screen name='Personal Details' component={InformationScreen} />
+            <Stack.Screen name='FoodDetails' component={FoodDetails} options={{
+                headerTitle: ''
+            }} />
         </Stack.Navigator>
     )
 }

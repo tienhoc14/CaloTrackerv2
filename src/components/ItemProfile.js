@@ -1,16 +1,20 @@
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, TouchableOpacity } from 'react-native'
 import React from 'react'
 import AppText from './AppText'
 import { AntDesign } from '@expo/vector-icons';
-import { sub } from 'react-native-reanimated';
+import { useNavigation } from '@react-navigation/native';
 
-const ItemProfile = ({ label, subLabel, noBorder }) => {
+const ItemProfile = ({ label, subLabel, noBorder, routeTo }) => {
+    const navigation = useNavigation()
+
     return (
         <>
-            <TouchableOpacity style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-            }}>
+            <TouchableOpacity
+                onPress={() => { navigation.navigate(routeTo) }}
+                style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                }}>
                 <View>
                     <AppText content={label} fontSize={16} />
                     {subLabel && <AppText content={subLabel} fontSize={14} color='grey' />}

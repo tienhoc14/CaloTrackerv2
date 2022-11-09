@@ -11,6 +11,9 @@ const BodyIndexScreen = ({ navigation }) => {
     const [switchHeight, setSwitchHeight] = useState(false)
     const [switchWeight, setSwitchWeight] = useState(false)
 
+    const [height, setHeight] = useState('')
+    const [weight, setWeight] = useState('')
+
     return (
         <View
             style={{
@@ -33,6 +36,8 @@ const BodyIndexScreen = ({ navigation }) => {
                         style={style.inputWrapper}
                     >
                         <TextInput
+                            value={height}
+                            onChangeText={text => setHeight(text)}
                             keyboardType='decimal-pad'
                             maxLength={3}
                             fontSize={16}
@@ -70,6 +75,8 @@ const BodyIndexScreen = ({ navigation }) => {
                         style={style.inputWrapper}
                     >
                         <TextInput
+                            value={weight}
+                            onChangeText={text => setWeight(text)}
                             keyboardType='decimal-pad'
                             maxLength={3}
                             fontSize={16}
@@ -109,10 +116,10 @@ const BodyIndexScreen = ({ navigation }) => {
 
                 <AppButton label={'NEXT'} onPress={() => {
                     navigation.navigate('Progress')
+                    console.log(height + (!switchHeight ? ' cm' : ' ft'));
+                    console.log(weight);
                 }} />
-
             </View>
-
         </View>
     )
 }

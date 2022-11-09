@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import AppText from './AppText'
 import color from '../styles/color'
 
-const RadioButton = ({ listButton }) => {
+const RadioButton = ({ listButton, getValue }) => {
 
     const [selectedButton, setSelectedButton] = useState(null)
 
@@ -14,7 +14,10 @@ const RadioButton = ({ listButton }) => {
                     <TouchableOpacity
                         activeOpacity={1}
                         key={label}
-                        onPress={() => { setSelectedButton(label) }}
+                        onPress={() => {
+                            setSelectedButton(label)
+                            getValue(label)
+                        }}
                         style={[style.button,
                         { backgroundColor: selectedButton == label ? color.PrimaryColor : '#fff' }]}
                     >

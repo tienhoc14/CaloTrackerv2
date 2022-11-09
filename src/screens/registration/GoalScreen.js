@@ -1,5 +1,5 @@
 import { View, Text, StatusBar } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import LoadingBar from '../../components/LoadingBar'
 import color from '../../styles/color'
 import AppButton from '../../components/AppButton'
@@ -8,6 +8,8 @@ import RadioButton from '../../components/RadioButton'
 import note from '../../utils/note'
 
 const GoalScreen = ({ navigation }) => {
+
+    const [goal, setGoal] = useState('')
 
     return (
         <View
@@ -32,7 +34,8 @@ const GoalScreen = ({ navigation }) => {
                     <AppText content={'What is your goal?'} fontSize={20} />
                 </View>
 
-                <RadioButton listButton={['Lost weight', 'Maintain weight', 'Gain weight']} />
+                <RadioButton getValue={setGoal}
+                    listButton={['Lost weight', 'Maintain weight', 'Gain weight']} />
 
             </View>
 
@@ -43,6 +46,7 @@ const GoalScreen = ({ navigation }) => {
 
                 <AppButton label={'NEXT'} onPress={() => {
                     navigation.navigate('Activity')
+                    console.log(goal);
                 }} />
             </View>
         </View>

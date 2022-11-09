@@ -13,6 +13,7 @@ const SettingsScreen = ({ navigation }) => {
                 index: 0,
                 routes: [{ name: 'Start' }],
             });
+            console.log('log out');
         }).catch((error) => {
             console.log(error);
         });
