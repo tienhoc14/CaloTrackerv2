@@ -1,13 +1,34 @@
 import { Image, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import style from '../styles/tabsStyle'
 import AppText from '../components/AppText'
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { auth, db } from '../../firebaseConfig';
 
 import { SimpleLineIcons } from '@expo/vector-icons';
 import color from '../styles/color';
 import ItemProfile from '../components/ItemProfile';
 
 const ProfileScreen = () => {
+    const [profile, setProfile] = useState({})
+
+    const getData = async () => {
+        const q = query(collection(db, "user_profile"), where("email", "==", auth.currentUser?.email));
+
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            setProfile(doc.data());
+        });
+    }
+
+    useEffect(() => {
+        getData()
+
+        return () => {
+            console.log('unmount');
+        }
+    }, []);
+
     return (
         <View style={style.container} >
             <View style={{
@@ -27,7 +48,7 @@ const ProfileScreen = () => {
                         borderRadius: 40,
                         marginRight: 15,
                     }}>
-                        <Image source={{ uri: 'https://cdna.artstation.com/p/assets/images/images/041/150/252/large/nokin-_-27-corr.jpg?1630915179' }}
+                        <Image source={{ uri: 'https://as1.ftcdn.net/v2/jpg/01/16/24/44/1000_F_116244459_pywR1e0T3H7FPk3LTMjG6jsL3UchDpht.jpg' }}
                             style={{
                                 width: 80,
                                 height: 80,
@@ -49,8 +70,8 @@ const ProfileScreen = () => {
                     </TouchableOpacity>
 
                     <View>
-                        <AppText content={'Nguyen Van A'} fontSize={18} fontWeight='bold' />
-                        <AppText content={'21 years old'} />
+                        <AppText content={profile.fullName} fontSize={18} fontWeight='bold' />
+                        <AppText content={`${profile.age} years old`} />
                     </View>
                 </View>
 
@@ -60,15 +81,15 @@ const ProfileScreen = () => {
                         justifyContent: 'space-between',
                     }}>
                         <AppText content={'Current weight'} />
-                        <AppText content={'60 kg'} />
+                        <AppText content={`${profile.weight} ${profile.weightUnit}`} />
                     </View>
                     <View style={{
                         flexDirection: 'row',
                         justifyContent: 'space-between',
                         marginVertical: 15,
                     }}>
-                        <AppText content={'Goal weight'} />
-                        <AppText content={'70 kg'} />
+                        <AppText content={'Goal'} />
+                        <AppText content={profile.goal} />
                     </View>
 
                     <View style={{
@@ -90,13 +111,14 @@ const ProfileScreen = () => {
                     padding: 20,
                     marginTop: 10,
                 }}>
-                    <ItemProfile label={'Personal details'} routeTo={'Personal Details'} />
-                    <ItemProfile label={'Update goal'}
-                        subLabel={'Gain 0.5 kg per week'} />
-                    <ItemProfile label={'Macronutrients'}
-                        subLabel={'Calories, Carbs, Protein and Fat'} />
-                    <ItemProfile label={'Workout routine'} noBorder={true}
-                        subLabel={'5 times/week'} />
+                    <ItemProfile label={'Personal details'} routeTo={'Personal Details'}
+                        params={profile} />
+                    <ItemProfile label={'Update goal'} routeTo={'Update Goal'}
+                        subLabel={'Gain 0.5 kg per week'} params={profile} />
+                    <ItemProfile label={'Macronutrients'} routeTo={'Macronutrients'}
+                        subLabel={'Calories, Carbs, Protein and Fat'} params={profile} />
+                    <ItemProfile label={'Workout routine'} noBorder={true} routeTo={'Workout Routine'}
+                        subLabel={'5 times/week'} params={profile} />
                 </View>
             </View>
         </View >

@@ -7,7 +7,10 @@ import AppText from '../../components/AppText'
 import note from '../../utils/note'
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker'
 
-const BirthdayScreen = ({ navigation }) => {
+const BirthdayScreen = ({ navigation, route }) => {
+
+    const { userInfor } = route.params
+    const [dob, setDob] = useState()
 
     const [date, setDate] = useState(new Date());
     const [dateString, setDateString] = useState('Choose date')
@@ -22,6 +25,10 @@ const BirthdayScreen = ({ navigation }) => {
         let tempDate = new Date(currentDate)
         let dateString = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear()
         setDateString(dateString)
+        setDob({
+            ...userInfor,
+            dob: dateString
+        })
     };
 
     const showMode = (currentMode) => {
@@ -84,8 +91,11 @@ const BirthdayScreen = ({ navigation }) => {
                 </Text>
 
                 <AppButton label={'NEXT'} onPress={() => {
-                    navigation.navigate('BodyIndex')
-                    console.log(dateString);
+                    navigation.navigate('BodyIndex', {
+                        userInfor: dob
+                    })
+
+                    console.log(dob);
                 }} />
 
             </View>

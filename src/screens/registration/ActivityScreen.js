@@ -7,9 +7,17 @@ import AppText from '../../components/AppText'
 import RadioButton from '../../components/RadioButton'
 import note from '../../utils/note'
 
-const ActivityScreen = ({ navigation }) => {
+const ActivityScreen = ({ navigation, route }) => {
 
-    const [activity, setActivity] = useState('')
+    const { userInfor } = route.params
+    const [activity, setActivity] = useState()
+
+    const updateInfor = (label) => {
+        setActivity({
+            ...userInfor,
+            activity: label
+        })
+    }
 
     return (
         <View
@@ -34,7 +42,7 @@ const ActivityScreen = ({ navigation }) => {
                     <AppText content={'How active are you?'} fontSize={20} />
                 </View>
 
-                <RadioButton getValue={setActivity}
+                <RadioButton getValue={updateInfor}
                     listButton={['Not very active', 'Lightly active', 'Active', 'Very active']} />
 
             </View>
@@ -45,7 +53,9 @@ const ActivityScreen = ({ navigation }) => {
                 </Text>
 
                 <AppButton label={'NEXT'} onPress={() => {
-                    navigation.navigate('Gender')
+                    navigation.navigate('Gender', {
+                        userInfor: activity
+                    })
                     console.log(activity);
                 }} />
 

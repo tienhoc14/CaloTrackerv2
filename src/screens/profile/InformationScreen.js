@@ -5,22 +5,9 @@ import AppText from '../../components/AppText'
 import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../../../firebaseConfig'
 
-const InformationScreen = () => {
-    const [profile, setProfile] = useState({})
+const InformationScreen = ({ route }) => {
 
-    const getData = async () => {
-        const docRef = doc(db, "user_profile", "T8lcx9gpREt79yUEui5Q");
-        const docSnap = await getDoc(docRef);
-        setProfile(docSnap.data())
-    }
-
-    useEffect(() => {
-        getData()
-
-        return () => {
-            console.log('unmount');
-        }
-    }, []);
+    const { profile } = route.params
 
     return (
         <View style={style.container}>
@@ -31,11 +18,11 @@ const InformationScreen = () => {
                 borderRadius: 10,
                 padding: 10,
             }}>
-                <AppText content={profile.full_name} />
+                <AppText content={profile.fullName} />
                 <AppText content={profile.gender} />
-                <AppText content={profile.DoB} />
-                <AppText content={profile.phone} />
-                <AppText content={profile.nationality} />
+                <AppText content={profile.dob} />
+                {/* <AppText content={profile.phone} /> */}
+                {/* <AppText content={profile.nationality} /> */}
             </View>
         </View>
     )

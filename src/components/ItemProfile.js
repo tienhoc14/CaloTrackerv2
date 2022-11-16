@@ -4,13 +4,17 @@ import AppText from './AppText'
 import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
-const ItemProfile = ({ label, subLabel, noBorder, routeTo }) => {
+const ItemProfile = ({ label, subLabel, noBorder, routeTo, params }) => {
     const navigation = useNavigation()
 
     return (
         <>
             <TouchableOpacity
-                onPress={() => { navigation.navigate(routeTo) }}
+                onPress={() => {
+                    navigation.navigate(routeTo, {
+                        profile: params
+                    })
+                }}
                 style={{
                     flexDirection: 'row',
                     alignItems: 'center',

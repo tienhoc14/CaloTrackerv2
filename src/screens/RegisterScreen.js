@@ -7,9 +7,11 @@ import { Ionicons } from '@expo/vector-icons';
 import AppButton from '../components/AppButton';
 import { MaterialIcons } from '@expo/vector-icons';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../firebaseConfig';
+import { auth, db } from '../../firebaseConfig';
+import { collection, addDoc } from "firebase/firestore";
 
-const RegisterScreen = ({ navigation }) => {
+const RegisterScreen = ({ navigation, route }) => {
+  const { userInfor } = route.params
 
   const [focusOn, setFocusOn] = useState(0)
   const [visible, setVisible] = useState(false)
@@ -18,12 +20,19 @@ const RegisterScreen = ({ navigation }) => {
   const [password, setPassword] = useState('')
   const [fullName, setFullName] = useState('')
 
-  const handleRegister = () => {
-    createUserWithEmailAndPassword(auth, email, password)
+  var yearNow = new Date().getFullYear();
+
+  const handleRegister = async () => {
+    await createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        console.log('register');
         console.log(userCredential.user.email);
-        navigation.navigate('BottomMenu')
+
+        addDoc(collection(db, "user_profile"), {
+          ...userInfor,
+          email: userCredential.user.email,
+          fullName: fullName,
+          age: yearNow - userInfor.dob.split("/")[2]
+        });
       })
       .catch((error) => {
         console.log(error.message);
@@ -69,6 +78,7 @@ const RegisterScreen = ({ navigation }) => {
           }}
         >
           <TextInput placeholder='Full name'
+            onChangeText={setFullName}
             onFocus={() => { setFocusOn(1) }}
           />
         </View>

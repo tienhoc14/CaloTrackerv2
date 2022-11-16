@@ -9,7 +9,23 @@ import note from '../../utils/note'
 
 const GoalScreen = ({ navigation }) => {
 
-    const [goal, setGoal] = useState('')
+    const [userInfor, setUserInfor] = useState({
+        goal: '',
+        goalWeight: '',
+        activity: '',
+        dob: '',
+        height: '',
+        weight: '',
+        weeklyChange: '',
+        gender: '',
+    })
+
+    const updateInfor = (label) => {
+        setUserInfor({
+            ...userInfor,
+            goal: label
+        })
+    }
 
     return (
         <View
@@ -34,7 +50,7 @@ const GoalScreen = ({ navigation }) => {
                     <AppText content={'What is your goal?'} fontSize={20} />
                 </View>
 
-                <RadioButton getValue={setGoal}
+                <RadioButton getValue={updateInfor}
                     listButton={['Lost weight', 'Maintain weight', 'Gain weight']} />
 
             </View>
@@ -44,10 +60,14 @@ const GoalScreen = ({ navigation }) => {
                     <AppText content={note.content} fontSize={12} />
                 </Text>
 
-                <AppButton label={'NEXT'} onPress={() => {
-                    navigation.navigate('Activity')
-                    console.log(goal);
-                }} />
+                <AppButton label={'NEXT'}
+                    onPress={() => {
+                        userInfor.goal == '' ? alert('Choose your goal!') :
+                            navigation.navigate('Activity', {
+                                userInfor: userInfor
+                            })
+                        console.log(userInfor);
+                    }} />
             </View>
         </View>
     )

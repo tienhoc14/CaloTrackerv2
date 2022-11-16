@@ -20,7 +20,7 @@ const DiaryScreen = ({ }) => {
   const [addWater, setAddWater] = useState(false)
   const [countWater, setCountWater] = useState(0)
 
-  const caloGoal = 2200
+  const caloGoal = 2000
 
   const renderWater = (i) => {
     if (addWater) {
@@ -51,9 +51,11 @@ const DiaryScreen = ({ }) => {
           <CircularProgress
             value={eaten - burned}
             maxValue={caloGoal}
-            title={'CALO LEFT'}
-            titleStyle={{ color: 'black', fontSize: 12, fontFamily: 'monospace' }}
-            progressValueStyle={{ color: 'black', fontWeight: '400', fontSize: 26, }}
+            showProgressValue={false}
+            title={caloGoal - eaten + burned}
+            subtitle={'CALO LEFT'}
+            titleStyle={{ color: 'black', fontSize: 26, fontFamily: 'monospace' }}
+            subtitleStyle={{color: 'black', fontSize: 12, fontFamily: 'monospace'}}
             activeStrokeWidth={4}
             activeStrokeSecondaryColor={color.PrimaryColor}
             activeStrokeColor={color.SecondaryColor}

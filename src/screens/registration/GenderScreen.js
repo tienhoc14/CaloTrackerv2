@@ -7,9 +7,17 @@ import AppText from '../../components/AppText'
 import RadioButton from '../../components/RadioButton'
 import note from '../../utils/note'
 
-const GenderScreen = ({ navigation }) => {
+const GenderScreen = ({ navigation, route }) => {
 
-    const [gender, setGender] = useState('')
+    const { userInfor } = route.params
+    const [gender, setGender] = useState()
+
+    const updateInfor = (label) => {
+        setGender({
+            ...userInfor,
+            gender: label
+        })
+    }
 
     return (
         <View
@@ -34,7 +42,7 @@ const GenderScreen = ({ navigation }) => {
                     <AppText content={'What is your gender?'} fontSize={20} />
                 </View>
 
-                <RadioButton getValue={setGender} listButton={['Male', 'Female']} />
+                <RadioButton getValue={updateInfor} listButton={['Male', 'Female']} />
 
             </View>
 
@@ -44,7 +52,9 @@ const GenderScreen = ({ navigation }) => {
                 </Text>
 
                 <AppButton label={'NEXT'} onPress={() => {
-                    navigation.navigate('Birthday')
+                    navigation.navigate('Birthday', {
+                        userInfor: gender
+                    })
                     console.log(gender);
                 }} />
 

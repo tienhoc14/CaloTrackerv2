@@ -7,8 +7,9 @@ import note from '../../utils/note'
 import AppText from '../../components/AppText'
 import RadioButton from '../../components/RadioButton'
 
-const ProgressScreen = ({ navigation }) => {
+const ProgressScreen = ({ navigation, route }) => {
 
+    const { userInfor } = route.params
     const [keyboardStatus, setKeyboardStatus] = useState(false);
 
     Keyboard.addListener("keyboardDidShow", () => {
@@ -18,13 +19,10 @@ const ProgressScreen = ({ navigation }) => {
         setKeyboardStatus(false);
     });
 
-    const [switchWeight, setSwitchWeight] = useState(false)
-    const [weightUnit, setWeightUnit] = useState('kg')
-    const [progress, setProgress] = useState('')
-    const [goalWeight, setGoalWeight] = useState('')
+    const [progress, setProgress] = useState({ ...userInfor })
 
     const WeeklyChange = (unit) => {
-        if (unit == 'kg') {
+        if (userInfor.weightUnit == 'kg') {
             return ['0,25 kg per week', '0.5 kg per week']
         } else {
             return ['0,5 lbs per week', '1 lbs per week']
@@ -60,46 +58,29 @@ const ProgressScreen = ({ navigation }) => {
                         }}
                     >
                         <TextInput
-                            value={goalWeight}
-                            onChangeText={text => setGoalWeight(text)}
+                            onChangeText={text => setProgress({
+                                ...progress,
+                                goalWeight: text
+                            })}
                             keyboardType='decimal-pad'
                             maxLength={3}
                             fontSize={16}
                             style={{ flex: 1 }}
                             textAlign='center'
                         />
-                        <AppText content={weightUnit}
+                        <AppText content={progress.weightUnit}
                             color={'grey'} fontSize={16} />
                     </View>
 
-                    <TouchableOpacity
-                        onPress={() => {
-                            setSwitchWeight(s => !s)
-                            switchWeight ? setWeightUnit('kg') : setWeightUnit('lbs')
-                        }}
-                        activeOpacity={1}
-                        style={style.switchWrapper}
-                    >
-                        <View style={[style.switchButton, {
-                            backgroundColor: switchWeight ? color.PrimaryColor : color.BGcolor
-                        }]}>
-                            <AppText content={'lbs'}
-                                color={switchWeight ? '#fff' : 'black'} />
-                        </View>
-
-                        <View style={[style.switchButton, {
-                            backgroundColor: !switchWeight ? color.PrimaryColor : color.BGcolor
-                        }]}>
-                            <AppText content={'kg'}
-                                color={!switchWeight ? '#fff' : 'black'} />
-                        </View>
-                    </TouchableOpacity>
                 </View>
 
                 <AppText content={'Choose your weekly change'} fontSize={20} />
 
-                <RadioButton getValue={setProgress}
-                    listButton={WeeklyChange(weightUnit)} />
+                <RadioButton getValue={(label) => setProgress({
+                    ...progress,
+                    weeklyChange: label
+                })}
+                    listButton={WeeklyChange(progress.weightUnit)} />
             </View>
 
             {!keyboardStatus &&
@@ -111,8 +92,9 @@ const ProgressScreen = ({ navigation }) => {
                     </Text>
 
                     <AppButton label={'NEXT'} onPress={() => {
-                        navigation.navigate('Register')
-                        console.log(goalWeight + weightUnit);
+                        navigation.navigate('Register', {
+                            userInfor: progress
+                        })
                         console.log(progress);
                     }} />
                 </View>

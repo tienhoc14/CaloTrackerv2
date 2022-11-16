@@ -6,13 +6,13 @@ import AppButton from '../../components/AppButton'
 import note from '../../utils/note'
 import AppText from '../../components/AppText'
 
-const BodyIndexScreen = ({ navigation }) => {
+const BodyIndexScreen = ({ navigation, route }) => {
+
+    const { userInfor } = route.params
+    const [bodyIndex, setBodyIndex] = useState({ ...userInfor })
 
     const [switchHeight, setSwitchHeight] = useState(false)
     const [switchWeight, setSwitchWeight] = useState(false)
-
-    const [height, setHeight] = useState('')
-    const [weight, setWeight] = useState('')
 
     return (
         <View
@@ -36,8 +36,11 @@ const BodyIndexScreen = ({ navigation }) => {
                         style={style.inputWrapper}
                     >
                         <TextInput
-                            value={height}
-                            onChangeText={text => setHeight(text)}
+                            onChangeText={text => setBodyIndex({
+                                ...bodyIndex,
+                                height: text,
+                                heightUnit: switchHeight ? 'ft' : 'cm'
+                            })}
                             keyboardType='decimal-pad'
                             maxLength={3}
                             fontSize={16}
@@ -49,7 +52,13 @@ const BodyIndexScreen = ({ navigation }) => {
                     </View>
 
                     <TouchableOpacity
-                        onPress={() => setSwitchHeight(s => !s)}
+                        onPress={() => {
+                            setSwitchHeight(s => !s)
+                            setBodyIndex({
+                                ...bodyIndex,
+                                heightUnit: !switchHeight ? 'ft' : 'cm'
+                            })
+                        }}
                         activeOpacity={1}
                         style={style.switchWrapper}
                     >
@@ -75,8 +84,11 @@ const BodyIndexScreen = ({ navigation }) => {
                         style={style.inputWrapper}
                     >
                         <TextInput
-                            value={weight}
-                            onChangeText={text => setWeight(text)}
+                            onChangeText={text => setBodyIndex({
+                                ...bodyIndex,
+                                weight: text,
+                                weightUnit: switchWeight ? 'lbs' : 'kg'
+                            })}
                             keyboardType='decimal-pad'
                             maxLength={3}
                             fontSize={16}
@@ -88,7 +100,13 @@ const BodyIndexScreen = ({ navigation }) => {
                     </View>
 
                     <TouchableOpacity
-                        onPress={() => setSwitchWeight(s => !s)}
+                        onPress={() => {
+                            setSwitchWeight(s => !s)
+                            setBodyIndex({
+                                ...bodyIndex,
+                                weightUnit: !switchWeight ? 'lbs' : 'kg'
+                            })
+                        }}
                         activeOpacity={1}
                         style={style.switchWrapper}
                     >
@@ -115,9 +133,10 @@ const BodyIndexScreen = ({ navigation }) => {
                 </Text>
 
                 <AppButton label={'NEXT'} onPress={() => {
-                    navigation.navigate('Progress')
-                    console.log(height + (!switchHeight ? ' cm' : ' ft'));
-                    console.log(weight);
+                    console.log(bodyIndex);
+                    navigation.navigate('Progress', {
+                        userInfor: bodyIndex
+                    })
                 }} />
             </View>
         </View>
