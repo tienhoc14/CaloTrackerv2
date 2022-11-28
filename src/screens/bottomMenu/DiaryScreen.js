@@ -19,6 +19,7 @@ const DiaryScreen = ({ }) => {
 
   const [addWater, setAddWater] = useState(false)
   const [countWater, setCountWater] = useState(0)
+  const waterTaken = countWater == 0 ? 0 : (countWater * 0.25)
 
   const caloGoal = 2000
 
@@ -55,7 +56,7 @@ const DiaryScreen = ({ }) => {
             title={caloGoal - eaten + burned}
             subtitle={'CALO LEFT'}
             titleStyle={{ color: 'black', fontSize: 26, fontFamily: 'monospace' }}
-            subtitleStyle={{color: 'black', fontSize: 12, fontFamily: 'monospace'}}
+            subtitleStyle={{ color: 'black', fontSize: 12, fontFamily: 'monospace' }}
             activeStrokeWidth={4}
             activeStrokeSecondaryColor={color.PrimaryColor}
             activeStrokeColor={color.SecondaryColor}
@@ -128,7 +129,7 @@ const DiaryScreen = ({ }) => {
             justifyContent: 'space-between',
           }}>
             <AppText content={'Water'} fontSize={16} />
-            <AppText content={'0L'} fontSize={16} />
+            <AppText content={`${waterTaken}L`} fontSize={16} />
           </View>
 
           <View style={{
@@ -139,7 +140,7 @@ const DiaryScreen = ({ }) => {
             <MaterialCommunityIcons name="cup" size={30} color={renderWater(1)}
               onPress={() => {
                 setAddWater(!addWater)
-                setCountWater(1)
+                setCountWater(addWater ? 1 : 0)
               }} />
             <MaterialCommunityIcons name="cup" size={30} color={renderWater(2)}
               onPress={() => {
@@ -184,7 +185,7 @@ const DiaryScreen = ({ }) => {
         <Meal mealTitle={'Lunch'} description={'Recommended 500 calories'} />
         <Meal mealTitle={'Dinner'} description={'Recommended 500 calories'} />
         <Meal mealTitle={'Snacks'} description={'Recommended 500 calories'} />
-        <Meal mealTitle={'Exercise'} description={'Recommended 30 mins'} />
+        <Meal mealTitle={'Exercise'} description={'Recommended 30 minutes'} />
       </ScrollView>
     </View>
   )

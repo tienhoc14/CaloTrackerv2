@@ -133,10 +133,14 @@ const BodyIndexScreen = ({ navigation, route }) => {
                 </Text>
 
                 <AppButton label={'NEXT'} onPress={() => {
-                    console.log(bodyIndex);
-                    navigation.navigate('Progress', {
-                        userInfor: bodyIndex
-                    })
+                    if (bodyIndex.weight > 200) {
+                        alert("can nang phai nho hon 200")
+                    } else {
+                        console.log(bodyIndex);
+                        navigation.navigate('Progress', {
+                            userInfor: bodyIndex
+                        })
+                    }
                 }} />
             </View>
         </View>
