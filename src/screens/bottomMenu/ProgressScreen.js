@@ -18,7 +18,7 @@ const ProgressScreen = () => {
 
   const [dataChart, setDataChart] = useState([55, 56, 57, 56.5, 58, 60])
   const [labelChart, setLabelChart] = useState(
-    ["Jan", "Feb", "Mar", "Apr", "May", "June"]
+    ["1/10", "8/10", "15/10", "22/10", "29/10", "5/11"]
   )
 
   const chartConfig = {
@@ -76,7 +76,7 @@ const ProgressScreen = () => {
             value={currentWeight}
             maxValue={goalWeight}
             showProgressValue={false}
-            title={goalWeight > currentWeight ? goalWeight - currentWeight : currentWeight - goalWeight}
+            title={goalWeight > currentWeight ? goalWeight - currentWeight : currentWeight - goalWeight + 'KG'}
             subtitle={goalWeight > currentWeight ? 'MORE KG' : 'OVER GOAL'}
             titleStyle={{ color: 'black', fontFamily: 'monospace', fontSize: 26, }}
             subtitleStyle={{ color: 'black', fontSize: 12, fontFamily: 'monospace' }}

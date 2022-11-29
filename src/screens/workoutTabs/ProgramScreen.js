@@ -1,4 +1,4 @@
-import { View, } from 'react-native'
+import { ScrollView, View, } from 'react-native'
 import React from 'react'
 import color from '../../styles/color'
 import Program from '../../components/Program'
@@ -9,10 +9,14 @@ const ProgramScreen = () => {
             flex: 1,
             backgroundColor: color.BGcolor,
         }}>
-
-            <Program />
-            <Program />
-
+            <ScrollView
+                style={{ marginBottom: 15, }}
+                showsVerticalScrollIndicator={false}
+            >
+                <Program category={'HOME WORKOUT'} />
+                <Program category={'YOGA'} />
+                <Program category={'STRENGTH TRAINING'} />
+            </ScrollView>
         </View>
     )
 }

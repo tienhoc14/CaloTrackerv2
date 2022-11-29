@@ -117,7 +117,7 @@ const ProfileScreen = () => {
                         subLabel={'Gain 0.5 kg per week'} params={profile} />
                     <ItemProfile label={'Macronutrients'} routeTo={'Macronutrients'}
                         subLabel={'Calories, Carbs, Protein and Fat'} params={profile} />
-                    <ItemProfile label={'Workout routine'} noBorder={true} routeTo={'Workout Routine'}
+                    <ItemProfile label={'Workout goals'} noBorder={true} routeTo={'Workout Routine'}
                         subLabel={'5 times/week'} params={profile} />
                 </View>
             </View>

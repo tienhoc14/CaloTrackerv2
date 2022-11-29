@@ -7,7 +7,7 @@ import imgHomeWorkout from '../../assets/images/home_workout.png'
 import imgHomeWorkout2 from '../../assets/images/w_homeworkout.webp'
 import { useNavigation } from '@react-navigation/native';
 
-const Program = () => {
+const Program = ({ category }) => {
 
     const navigation = useNavigation();
 
@@ -16,7 +16,7 @@ const Program = () => {
             height: 280,
             marginTop: 15,
         }}>
-            <AppText content={'HOME WORKOUT'} fontSize={16} fontWeight='bold' />
+            <AppText content={category} fontSize={16} fontWeight='bold' />
 
             <ScrollView
                 horizontal={true}
@@ -71,7 +71,7 @@ const Program = () => {
                             <MaterialCommunityIcons name="timer" size={18} color="grey" />
                             <AppText content={'25:00'} />
                         </View>
-                        <AppText content={'Home workout for women'} fontSize={16} fontWeight='bold' />
+                        <AppText content={'Yoga for beginner'} fontSize={16} fontWeight='bold' />
                     </View>
                 </TouchableOpacity>
             </ScrollView>
