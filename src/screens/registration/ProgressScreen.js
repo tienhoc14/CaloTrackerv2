@@ -92,10 +92,16 @@ const ProgressScreen = ({ navigation, route }) => {
                     </Text>
 
                     <AppButton label={'NEXT'} onPress={() => {
-                        navigation.navigate('Register', {
-                            userInfor: progress
-                        })
-                        console.log(progress);
+                        if (!progress.goalWeight) {
+                            alert('Please enter your goal weight')
+                        } else if (!progress.weeklyChange) {
+                            alert('Please choose your weekly change')
+                        } else {
+                            navigation.navigate('Register', {
+                                userInfor: progress
+                            })
+                            console.log(progress);
+                        }
                     }} />
                 </View>
             }

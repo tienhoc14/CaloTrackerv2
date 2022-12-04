@@ -1,4 +1,4 @@
-import { View, StatusBar, TextInput, TouchableOpacity, } from 'react-native'
+import { View, StatusBar, TextInput } from 'react-native'
 import React, { useState } from 'react'
 
 import color from '../styles/color'
@@ -8,7 +8,7 @@ import AppButton from '../components/AppButton';
 import { MaterialIcons } from '@expo/vector-icons';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth, db } from '../../firebaseConfig';
-import { collection, addDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 
 const RegisterScreen = ({ navigation, route }) => {
   const { userInfor } = route.params
@@ -21,21 +21,51 @@ const RegisterScreen = ({ navigation, route }) => {
   const [fullName, setFullName] = useState('')
 
   var yearNow = new Date().getFullYear();
+  const age = yearNow - userInfor.dob.split("/")[2]
+
+  const bmr = Math.round(10 * userInfor.weight + 6.25 * userInfor.height - 5 * age + (
+    userInfor.gender == 'Male' ? 5 : (-161)
+  ))
+  const tdee = Math.round(bmr * userInfor.activeLevel)
+
+  const calculateKcal = () => {
+    if (userInfor.goal == 'Lost weight') {
+      return tdee - (userInfor.weeklyChange == '0,25 kg per week' ? 275 : 550)
+    } else if (userInfor.goal == 'Gain weight') {
+      return tdee + (userInfor.weeklyChange == '0,25 kg per week' ? 275 : 550)
+    } else {
+      return tdee
+    }
+  }
 
   const handleRegister = async () => {
+    console.log(calculateKcal());
+
+    if (!fullName) {
+      alert("Please enter your full name")
+      return
+    }
     await createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         console.log(userCredential.user.email);
 
-        addDoc(collection(db, "user_profile"), {
+        setDoc(doc(db, "user_profile", userCredential.user.email), {
           ...userInfor,
           email: userCredential.user.email,
           fullName: fullName,
-          age: yearNow - userInfor.dob.split("/")[2]
+          year: userInfor.dob.slice(-4),
+          tdee: tdee,
+          daily_kcal: calculateKcal(),
+        });
+
+        setDoc(doc(db, "macronutrients", userCredential.user.email), {
+          carbs: 45,
+          fat: 20,
+          pro: 35,
         });
       })
       .catch((error) => {
-        console.log(error.message);
+        alert(error.code.slice(5));
       });
   }
 

@@ -91,10 +91,10 @@ const BirthdayScreen = ({ navigation, route }) => {
                 </Text>
 
                 <AppButton label={'NEXT'} onPress={() => {
+                    !dob ? alert('Please choose your birthday!') :
                     navigation.navigate('BodyIndex', {
                         userInfor: dob
                     })
-
                     console.log(dob);
                 }} />
 

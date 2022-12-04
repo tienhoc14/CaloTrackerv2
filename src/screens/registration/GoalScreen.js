@@ -62,7 +62,7 @@ const GoalScreen = ({ navigation }) => {
 
                 <AppButton label={'NEXT'}
                     onPress={() => {
-                        userInfor.goal == '' ? alert('Choose your goal!') :
+                        userInfor.goal == '' ? alert('Please choose your goal!') :
                             navigation.navigate('Activity', {
                                 userInfor: userInfor
                             })

@@ -1,17 +1,43 @@
 import { View } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import AppText from '../../components/AppText'
 import Food from '../../components/Food'
 import style from '../../styles/tabsStyle'
+import { collection, getDocs } from "firebase/firestore";
+import { db } from '../../../firebaseConfig'
 
-const RecentScreen = () => {
+const RecentScreen = ({ mealTitle, date }) => {
+
+    const [allFood, setAllFood] = useState([])
+
+    const getData = async () => {
+        const querySnapshot = await getDocs(collection(db, "food"));
+
+
+        var data = []
+        querySnapshot.forEach(doc => {
+            data.push(doc.data())
+        })
+
+        setAllFood(data)
+    }
+
+    useEffect(() => {
+        getData()
+
+        return () => {
+
+        }
+    }, []);
+
     return (
         <View style={style.container}>
             <AppText content={'Recently Tracked'} />
 
-            <Food foodTitle={'Bun cha'} calo={'123 kcal'} quantity={'100g'} />
-            <Food foodTitle={'Taco'} calo={'300 kcal'} quantity={'50g'} />
-            <Food foodTitle={'Thit bo'} calo={'250 kcal'} quantity={'100g'} />
+            {allFood.map((value, index) => {
+                return <Food key={index} foodTitle={value.name} mealTitle={mealTitle} date={date}
+                    calo={`${value.kcal}kcal`} quantity={value.size} unit={value.unit} />
+            })}
         </View>
     )
 }

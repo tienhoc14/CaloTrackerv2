@@ -1,14 +1,73 @@
-import { TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import { ToastAndroid, TouchableOpacity, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import AppText from './AppText'
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
 import { Entypo } from '@expo/vector-icons';
+import { auth, db } from '../../firebaseConfig';
+import { arrayRemove, arrayUnion, doc, getDoc, setDoc } from 'firebase/firestore';
 
-const Food = ({ foodTitle, calo, quantity }) => {
+const Food = ({ foodTitle, calo, quantity, unit, mealTitle, date }) => {
 
     const navigation = useNavigation()
+    const [oldMeal, setOldMeal] = useState()
+
+    const getData = async () => {
+        const docDiary = await getDoc(doc(db, "diary", auth.currentUser?.email))
+
+        try {
+            setOldMeal(docDiary.data()[date][mealTitle])
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    const logFood = async () => {
+
+        let food = { quantity: 0 }
+        if (oldMeal) {
+            food = oldMeal.find((food) => {
+                return food.name === foodTitle
+            })
+
+            if (typeof food !== 'undefined') {
+                await setDoc(doc(db, "diary", auth.currentUser?.email), {
+                    [date]: {
+                        [mealTitle]: arrayRemove({
+                            name: foodTitle,
+                            quantity: food.quantity
+                        }),
+                    }
+                }, { merge: true });
+
+            } else {
+                food = { quantity: 0 }
+            }
+        }
+
+        await setDoc(doc(db, "diary", auth.currentUser?.email), {
+            [date]: {
+                [mealTitle]: arrayUnion({
+                    name: foodTitle,
+                    quantity: quantity + food.quantity
+                })
+            }
+        }, { merge: true });
+
+        ToastAndroid.show(`Logged ${foodTitle}`, ToastAndroid.SHORT);
+        getData()
+    }
+
+    useEffect(() => {
+        getData()
+
+        const willFocusSubscription = navigation.addListener('focus', () => {
+            getData();
+        });
+
+        return willFocusSubscription
+    }, []);
 
     return (
         <TouchableOpacity
@@ -36,15 +95,15 @@ const Food = ({ foodTitle, calo, quantity }) => {
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <AppText content={calo} fontSize={12} color='grey' />
                         <Entypo name="dot-single" size={20} color="grey" />
-                        <AppText content={quantity} fontSize={12} color='grey' />
+                        <AppText content={quantity + unit} fontSize={12} color='grey' />
                     </View>
                 </View>
                 <TouchableOpacity
-                    onPress={() => { }}>
+                    onPress={logFood}>
                     <Ionicons name="ios-add-circle" size={30} color={'#ccc'} />
                 </TouchableOpacity>
-            </View>
-        </TouchableOpacity>
+            </View >
+        </TouchableOpacity >
     )
 }
 

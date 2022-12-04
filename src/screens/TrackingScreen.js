@@ -11,7 +11,7 @@ import color from '../styles/color';
 import TrackingNavigation from '../navigations/TrackingNavigation';
 
 const TrackingScreen = ({ route }) => {
-    const { mealTitle } = route.params
+    const { mealTitle, date } = route.params
     const navigation = useNavigation()
 
     return (
@@ -58,7 +58,7 @@ const TrackingScreen = ({ route }) => {
                 </TouchableOpacity>
             </View>
 
-            <TrackingNavigation />
+            <TrackingNavigation mealTitle={mealTitle} date={date} />
 
         </View>
     )

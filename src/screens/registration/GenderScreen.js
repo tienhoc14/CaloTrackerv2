@@ -52,6 +52,7 @@ const GenderScreen = ({ navigation, route }) => {
                 </Text>
 
                 <AppButton label={'NEXT'} onPress={() => {
+                    !gender ? alert('Please choose your gender!') :
                     navigation.navigate('Birthday', {
                         userInfor: gender
                     })

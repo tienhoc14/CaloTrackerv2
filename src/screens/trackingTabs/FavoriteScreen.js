@@ -9,7 +9,6 @@ const FavoriteScreen = () => {
         <View style={style.container}>
             <AppText content={'Favorite'} />
 
-            <Food foodTitle={'Bun cha'} calo={'123 kcal'} quantity={'100g'} />
         </View>
     )
 }

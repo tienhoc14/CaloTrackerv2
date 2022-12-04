@@ -2,7 +2,7 @@ import { Image, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import style from '../styles/tabsStyle'
 import AppText from '../components/AppText'
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from '../../firebaseConfig';
 
 import { SimpleLineIcons } from '@expo/vector-icons';
@@ -10,15 +10,13 @@ import color from '../styles/color';
 import ItemProfile from '../components/ItemProfile';
 
 const ProfileScreen = () => {
+
     const [profile, setProfile] = useState({})
+    var yearNow = new Date().getFullYear();
 
     const getData = async () => {
-        const q = query(collection(db, "user_profile"), where("email", "==", auth.currentUser?.email));
-
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-            setProfile(doc.data());
-        });
+        const docSnap = await getDoc(doc(db, "user_profile", auth.currentUser?.email))
+        setProfile(docSnap.data())
     }
 
     useEffect(() => {
@@ -48,7 +46,7 @@ const ProfileScreen = () => {
                         borderRadius: 40,
                         marginRight: 15,
                     }}>
-                        <Image source={{ uri: 'https://as1.ftcdn.net/v2/jpg/01/16/24/44/1000_F_116244459_pywR1e0T3H7FPk3LTMjG6jsL3UchDpht.jpg' }}
+                        <Image source={{ uri: 'https://cdn.iconscout.com/icon/free/png-256/avatar-370-456322.png' }}
                             style={{
                                 width: 80,
                                 height: 80,
@@ -71,7 +69,7 @@ const ProfileScreen = () => {
 
                     <View>
                         <AppText content={profile.fullName} fontSize={18} fontWeight='bold' />
-                        <AppText content={`${profile.age} years old`} />
+                        <AppText content={`${yearNow - profile.year} years old`} />
                     </View>
                 </View>
 
@@ -97,7 +95,7 @@ const ProfileScreen = () => {
                         justifyContent: 'space-between',
                     }}>
                         <AppText content={'Daily calories'} />
-                        <AppText content={'2000 cal'} />
+                        <AppText content={`${profile.daily_kcal} kcal`} />
                     </View>
                 </View>
             </View>
@@ -117,7 +115,7 @@ const ProfileScreen = () => {
                         subLabel={'Gain 0.5 kg per week'} params={profile} />
                     <ItemProfile label={'Macronutrients'} routeTo={'Macronutrients'}
                         subLabel={'Calories, Carbs, Protein and Fat'} params={profile} />
-                    <ItemProfile label={'Workout goals'} noBorder={true} routeTo={'Workout Routine'}
+                    <ItemProfile label={'Workout goals'} noBorder={true} routeTo={'Workout Goals'}
                         subLabel={'5 times/week'} params={profile} />
                 </View>
             </View>

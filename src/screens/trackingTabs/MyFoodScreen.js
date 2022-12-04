@@ -9,9 +9,6 @@ const MyFoodScreen = () => {
         <View style={style.container}>
             <AppText content={'My Foods'} />
 
-            <Food foodTitle={'Bun cha'} calo={'123 kcal'} quantity={'100g'} />
-            <Food foodTitle={'Taco'} calo={'300 kcal'} quantity={'50g'} />
-            <Food foodTitle={'Thit bo'} calo={'250 kcal'} quantity={'100g'} />
         </View>
     )
 }

@@ -12,10 +12,18 @@ const ActivityScreen = ({ navigation, route }) => {
     const { userInfor } = route.params
     const [activity, setActivity] = useState()
 
+    const getLevel = (label) => {
+        if (label == 'Not very active') return 1.2
+        if (label == 'Lightly active') return 1.375
+        if (label == 'Active') return 1.55
+        if (label == 'Very active') return 1.725
+    }
+
     const updateInfor = (label) => {
         setActivity({
             ...userInfor,
-            activity: label
+            activity: label,
+            activeLevel: getLevel(label)
         })
     }
 
@@ -53,9 +61,10 @@ const ActivityScreen = ({ navigation, route }) => {
                 </Text>
 
                 <AppButton label={'NEXT'} onPress={() => {
-                    navigation.navigate('Gender', {
-                        userInfor: activity
-                    })
+                    !activity ? alert('Please choose activity level!') :
+                        navigation.navigate('Gender', {
+                            userInfor: activity
+                        })
                     console.log(activity);
                 }} />
 

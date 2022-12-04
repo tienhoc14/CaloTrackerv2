@@ -1,4 +1,3 @@
-import { View, Text } from 'react-native'
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import BottomNavigation from './BottomNavigation';
@@ -15,6 +14,7 @@ import RoutineScreen from '../screens/profile/RoutineScreen';
 const Stack = createNativeStackNavigator()
 
 const AppStack = () => {
+
     return (
         <Stack.Navigator screenOptions={{
             headerTitleStyle: { fontSize: 18, },
@@ -31,9 +31,9 @@ const AppStack = () => {
             <Stack.Screen name='Personal Details' component={InformationScreen} />
             <Stack.Screen name='Update Goal' component={UpdateGoal} />
             <Stack.Screen name='Macronutrients' component={MacroScreen} />
-            <Stack.Screen name='Workout Routine' component={RoutineScreen} />
+            <Stack.Screen name='Workout Goals' component={RoutineScreen} />
             <Stack.Screen name='FoodDetails' component={FoodDetails} options={{
-                headerTitle: ''
+                headerTitle: 'Food Details'
             }} />
             <Stack.Screen name='DetailProgram' component={DetailProgram} />
 

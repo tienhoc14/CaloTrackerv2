@@ -3,11 +3,12 @@ import React, { useEffect, useState } from 'react'
 import { AntDesign } from '@expo/vector-icons';
 import AppText from './AppText';
 
-const ItemDetails = ({ label, data, last }) => {
+const ItemDetails = ({ label, data, last, onPress }) => {
     const fontSize = 16
 
     return (
         <TouchableOpacity
+            onPress={onPress}
             style={{
                 borderBottomWidth: 1,
                 justifyContent: 'center',

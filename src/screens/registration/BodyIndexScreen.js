@@ -133,14 +133,20 @@ const BodyIndexScreen = ({ navigation, route }) => {
                 </Text>
 
                 <AppButton label={'NEXT'} onPress={() => {
+
                     if (bodyIndex.weight > 200) {
-                        alert("can nang phai nho hon 200")
+                        alert("Weight should not exceed 200kg")
+                    } else if (bodyIndex.height > 250) {
+                        alert("Height should not exceed 250cm")
+                    } else if (!bodyIndex.weight || !bodyIndex.height) {
+                        alert("Please fill in the information")
                     } else {
-                        console.log(bodyIndex);
                         navigation.navigate('Progress', {
                             userInfor: bodyIndex
                         })
+                        console.log(bodyIndex);
                     }
+
                 }} />
             </View>
         </View>

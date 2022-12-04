@@ -10,7 +10,8 @@ import { Entypo } from '@expo/vector-icons';
 
 const Tab = createMaterialTopTabNavigator();
 
-const TrackingNavigation = () => {
+const TrackingNavigation = ({ mealTitle, date }) => {
+
     return (
         <Tab.Navigator
             screenOptions={{
@@ -27,21 +28,24 @@ const TrackingNavigation = () => {
                 tabBarInactiveTintColor: 'grey',
             }}
         >
-            <Tab.Screen name="Recent" component={RecentScreen} options={{
-                tabBarIcon: ({ color, size }) => (
-                    <MaterialIcons name="history" size={22} color={color} />
-                )
-            }} />
-            <Tab.Screen name="Favorite" component={FavoriteScreen} options={{
-                tabBarIcon: ({ color, size }) => (
-                    <Entypo name="heart-outlined" size={22} color={color} />
-                )
-            }} />
-            <Tab.Screen name="MyFood" component={MyFoodScreen} options={{
-                tabBarIcon: ({ color, size }) => (
-                    <MaterialIcons name="my-library-books" size={22} color={color} />
-                )
-            }} />
+            <Tab.Screen name="Recent" children={() => { return <RecentScreen mealTitle={mealTitle} date={date} /> }}
+                options={{
+                    tabBarIcon: ({ color, size }) => (
+                        <MaterialIcons name="history" size={22} color={color} />
+                    )
+                }} />
+            <Tab.Screen name="Favorite" children={() => { return <FavoriteScreen mealTitle={mealTitle} date={date} /> }}
+                options={{
+                    tabBarIcon: ({ color, size }) => (
+                        <Entypo name="heart-outlined" size={22} color={color} />
+                    )
+                }} />
+            <Tab.Screen name="MyFood" children={() => { return <MyFoodScreen mealTitle={mealTitle} date={date} /> }}
+                options={{
+                    tabBarIcon: ({ color, size }) => (
+                        <MaterialIcons name="my-library-books" size={22} color={color} />
+                    )
+                }} />
         </Tab.Navigator>
     )
 }
