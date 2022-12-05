@@ -1,4 +1,4 @@
-import { View, TouchableOpacity, ScrollView } from 'react-native'
+import { View, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import HeaderBar from '../../components/HeaderBar'
 import style from '../../styles/tabsStyle'
@@ -16,14 +16,19 @@ import { useNavigation } from '@react-navigation/native'
 const DiaryScreen = ({ }) => {
 
   const navigation = useNavigation()
+  const [isLoading, setIsLoading] = useState(false)
 
   const [profile, setProfile] = useState({})
   const [macros, setMacros] = useState({})
-  const [diary, setDiary] = useState({})
 
   const [dateNow, setDateNow] = useState(new Date())
   const date = dateNow
   const today = new Date().toDateString()
+
+  const [eBreak, setEBreak] = useState(0)
+  const [eLunch, setELunch] = useState(0)
+  const [eDinner, seteDinner] = useState(0)
+  const [eSnack, setESnack] = useState(0)
 
   const [eaten, setEaten] = useState(0)
   const [burned, setBurned] = useState(0)
@@ -39,6 +44,9 @@ const DiaryScreen = ({ }) => {
   const caloGoal = profile.daily_kcal
 
   const getData = async () => {
+    setIsLoading(true)
+    setEaten(0)
+
     const docSnap = await getDoc(doc(db, "user_profile", auth.currentUser?.email))
     setProfile(docSnap.data())
 
@@ -46,23 +54,50 @@ const DiaryScreen = ({ }) => {
     setMacros(docMacros.data())
 
     const docDiary = await getDoc(doc(db, "diary", auth.currentUser?.email))
-    setDiary(docDiary.data())
 
+    let arr = []
     try {
-      setBreakfast(docDiary.data()[date.toLocaleDateString()].Breakfast)
-      setLunch(docDiary.data()[date.toLocaleDateString()].Lunch)
-      setDinner(docDiary.data()[date.toLocaleDateString()].Dinner)
-      setSnack(docDiary.data()[date.toLocaleDateString()].Snack)
-    } catch (error) {
+      arr.push(docDiary.data()[date.toLocaleDateString()].Breakfast)
+      arr.push(docDiary.data()[date.toLocaleDateString()].Lunch)
+      arr.push(docDiary.data()[date.toLocaleDateString()].Dinner)
+      arr.push(docDiary.data()[date.toLocaleDateString()].Snack)
+
+      setBreakfast(arr[0])
+      setLunch(arr[1])
+      setDinner(arr[2])
+      setSnack(arr[3])
+    } catch (err) {
       setBreakfast()
       setLunch()
       setDinner()
       setSnack()
     }
 
-    docDiary.data()[date.toLocaleDateString()].waterTaken ?
-      setCountWater(docDiary.data()[date.toLocaleDateString()].waterTaken * 4) :
+    let i = 0, total = 0
+    arr.forEach(meal => {
+      i += 1
+      if (meal) {
+        let kcal = 0
+        meal.forEach(food => {
+          kcal += food.kcal
+        });
+        i == 1 && setEBreak(kcal)
+        i == 2 && setELunch(kcal)
+        i == 3 && seteDinner(kcal)
+        i == 4 && setESnack(kcal)
+        total += kcal
+      }
+      setEaten(total)
+    });
+    setIsLoading(false)
+
+    if (docDiary.data()[date.toLocaleDateString()]) {
+      docDiary.data()[date.toLocaleDateString()].waterTaken ?
+        setCountWater(docDiary.data()[date.toLocaleDateString()].waterTaken * 4) :
+        setCountWater(0)
+    } else {
       setCountWater(0)
+    }
 
   }
 
@@ -110,7 +145,10 @@ const DiaryScreen = ({ }) => {
         }}
       >
         <View style={{ alignItems: 'center', flex: 1 }}>
-          <AppText content={eaten} fontSize={18} />
+          {isLoading ?
+            <ActivityIndicator size={'small'} color={color.PrimaryColor} /> :
+            <AppText content={eaten} fontSize={18} />
+          }
           <AppText content={'EATEN'} />
         </View>
 
@@ -141,7 +179,8 @@ const DiaryScreen = ({ }) => {
 
       {/* three macros */}
       <TouchableOpacity
-        onPress={() => { }}
+        onPress={() => {
+        }}
         style={{
           backgroundColor: '#fff',
           borderRadius: 10,
@@ -260,21 +299,21 @@ const DiaryScreen = ({ }) => {
         </View>
 
         {/* listmeal */}
-        <Meal mealTitle={'Breakfast'} date={date.toLocaleDateString()} calo={123} foods={breakfast}
+        <Meal mealTitle={'Breakfast'} date={date.toLocaleDateString()} calo={eBreak} foods={breakfast}
           description={`Recommended ${Math.round(caloGoal * 0.3)} kcal`} />
 
-        <Meal mealTitle={'Lunch'} date={date.toLocaleDateString()} calo={123} foods={lunch}
+        <Meal mealTitle={'Lunch'} date={date.toLocaleDateString()} calo={eLunch} foods={lunch}
           description={`Recommended ${Math.round(caloGoal * 0.3)} kcal`} />
 
-        <Meal mealTitle={'Dinner'} date={date.toLocaleDateString()} calo={123} foods={dinner}
+        <Meal mealTitle={'Dinner'} date={date.toLocaleDateString()} calo={eDinner} foods={dinner}
           description={`Recommended ${Math.round(caloGoal * 0.25)} kcal`} />
 
-        <Meal mealTitle={'Snacks'} date={date.toLocaleDateString()} calo={123} foods={snack}
+        <Meal mealTitle={'Snacks'} date={date.toLocaleDateString()} calo={eSnack} foods={snack}
           description={`Recommended ${Math.round(caloGoal * 0.15)} kcal`} />
 
         <Meal mealTitle={'Exercise'} description={'Recommended 30 minutes'} />
       </ScrollView>
-    </View>
+    </View >
   )
 }
 

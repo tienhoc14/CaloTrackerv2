@@ -40,6 +40,9 @@ const RegisterScreen = ({ navigation, route }) => {
 
   const handleRegister = async () => {
     console.log(calculateKcal());
+    const d = new Date();
+    let date = d.getDate()
+    let month = d.getMonth() + 1
 
     if (!fullName) {
       alert("Please enter your full name")
@@ -63,6 +66,13 @@ const RegisterScreen = ({ navigation, route }) => {
           fat: 20,
           pro: 35,
         });
+
+        setDoc(doc(db, "progression", userCredential.user.email), {
+          weight: [Number(userInfor.weight)],
+          date: [`${date}/${month}`]
+        });
+
+        setDoc(doc(db, "diary", userCredential.user.email), {});
       })
       .catch((error) => {
         alert(error.code.slice(5));

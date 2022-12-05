@@ -13,7 +13,6 @@ const RecentScreen = ({ mealTitle, date }) => {
     const getData = async () => {
         const querySnapshot = await getDocs(collection(db, "food"));
 
-
         var data = []
         querySnapshot.forEach(doc => {
             data.push(doc.data())
@@ -36,7 +35,7 @@ const RecentScreen = ({ mealTitle, date }) => {
 
             {allFood.map((value, index) => {
                 return <Food key={index} foodTitle={value.name} mealTitle={mealTitle} date={date}
-                    calo={`${value.kcal}kcal`} quantity={value.size} unit={value.unit} />
+                    calo={value.kcal} quantity={value.size} unit={value.unit} />
             })}
         </View>
     )

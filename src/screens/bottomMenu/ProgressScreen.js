@@ -1,5 +1,5 @@
 import { View, Dimensions, TouchableOpacity, Modal, Pressable, TextInput } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import style from '../../styles/tabsStyle'
 import HeaderBar from '../../components/HeaderBar'
 import { LineChart } from 'react-native-chart-kit'
@@ -8,18 +8,21 @@ import color from '../../styles/color'
 import CircularProgress from 'react-native-circular-progress-indicator'
 
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { arrayUnion, doc, getDoc, updateDoc, arrayRemove } from 'firebase/firestore'
+import { auth, db } from '../../../firebaseConfig'
+import { useNavigation } from '@react-navigation/native'
 
 const ProgressScreen = () => {
 
-  const [goalWeight, setGoalWeight] = useState(70)
-  const [currentWeight, setCurrentWeight] = useState(60)
+  const navigation = useNavigation()
+
+  const [goalWeight, setGoalWeight] = useState()
+  const [currentWeight, setCurrentWeight] = useState()
   const [newWeight, setNewWeight] = useState()
   const [isVisible, setIsVisible] = useState(false)
 
-  const [dataChart, setDataChart] = useState([55, 56, 57, 56.5, 58, 60])
-  const [labelChart, setLabelChart] = useState(
-    ["1/10", "8/10", "15/10", "22/10", "29/10", "5/11"]
-  )
+  const [dataChart, setDataChart] = useState([0])
+  const [labelChart, setLabelChart] = useState(["start"])
 
   const chartConfig = {
     backgroundGradientFrom: "white",
@@ -29,25 +32,55 @@ const ProgressScreen = () => {
     labelColor: () => `grey`,
   }
 
-  const updateWeight = () => {
+  const getData = async () => {
+    const docSnap = await getDoc(doc(db, "user_profile", auth.currentUser?.email))
+    setGoalWeight(docSnap.data().goalWeight)
+    setCurrentWeight(docSnap.data().weight)
+
+    const progressSnap = await getDoc(doc(db, "progression", auth.currentUser?.email))
+    setDataChart(progressSnap.data().weight)
+    setLabelChart(progressSnap.data().date)
+  }
+
+  useEffect(() => {
+    getData()
+
+    const willFocusSubscription = navigation.addListener('focus', () => {
+      getData();
+    });
+
+    return willFocusSubscription
+  }, []);
+
+  const updateWeight = async () => {
 
     const d = new Date();
     let date = d.getDate()
     let month = d.getMonth() + 1
+    date = `${date}/${month}`
 
     if (newWeight) {
-      setCurrentWeight(newWeight)
-      setDataChart([
-        ...dataChart,
-        newWeight
-      ])
 
-      setLabelChart([
-        ...labelChart,
-        `${date}/${month}`
-      ])
+      await updateDoc(doc(db, "user_profile", auth.currentUser?.email), {
+        weight: newWeight
+      });
+
+      if (labelChart.includes(date)) {
+        await updateDoc(doc(db, "progression", auth.currentUser?.email), {
+          weight: arrayRemove(dataChart[dataChart.length - 1]),
+        });
+        await updateDoc(doc(db, "progression", auth.currentUser?.email), {
+          weight: arrayUnion(Number(newWeight)),
+        });
+      } else {
+        await updateDoc(doc(db, "progression", auth.currentUser?.email), {
+          date: arrayUnion(date),
+          weight: arrayUnion(Number(newWeight)),
+        });
+      }
 
       setIsVisible(false)
+      getData()
     } else {
       alert('Please enter new weight!')
     }

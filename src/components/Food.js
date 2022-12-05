@@ -16,10 +16,10 @@ const Food = ({ foodTitle, calo, quantity, unit, mealTitle, date }) => {
     const getData = async () => {
         const docDiary = await getDoc(doc(db, "diary", auth.currentUser?.email))
 
-        try {
-            setOldMeal(docDiary.data()[date][mealTitle])
-        } catch (err) {
-            console.log(err);
+        if (docDiary.data()[date]) {
+            if (docDiary.data()[date][mealTitle]) {
+                setOldMeal(docDiary.data()[date][mealTitle])
+            }
         }
     }
 
@@ -36,7 +36,8 @@ const Food = ({ foodTitle, calo, quantity, unit, mealTitle, date }) => {
                     [date]: {
                         [mealTitle]: arrayRemove({
                             name: foodTitle,
-                            quantity: food.quantity
+                            quantity: food.quantity,
+                            kcal: food.quantity / quantity * calo
                         }),
                     }
                 }, { merge: true });
@@ -50,8 +51,9 @@ const Food = ({ foodTitle, calo, quantity, unit, mealTitle, date }) => {
             [date]: {
                 [mealTitle]: arrayUnion({
                     name: foodTitle,
-                    quantity: quantity + food.quantity
-                })
+                    quantity: quantity + food.quantity,
+                    kcal: (quantity + food.quantity) / quantity * calo
+                }),
             }
         }, { merge: true });
 
@@ -72,9 +74,9 @@ const Food = ({ foodTitle, calo, quantity, unit, mealTitle, date }) => {
     return (
         <TouchableOpacity
             onPress={() => {
-                navigation.navigate('FoodDetails', {
-                    foodTitle: foodTitle
-                })
+                // navigation.navigate('FoodDetails', {
+                //     foodTitle: foodTitle
+                // })
             }}
             style={{
                 backgroundColor: '#fff',
@@ -93,7 +95,7 @@ const Food = ({ foodTitle, calo, quantity, unit, mealTitle, date }) => {
                     <AppText content={foodTitle} fontWeight='bold' fontSize={16} />
 
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <AppText content={calo} fontSize={12} color='grey' />
+                        <AppText content={`${calo}kcal`} fontSize={12} color='grey' />
                         <Entypo name="dot-single" size={20} color="grey" />
                         <AppText content={quantity + unit} fontSize={12} color='grey' />
                     </View>
