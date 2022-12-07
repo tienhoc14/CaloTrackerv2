@@ -58,7 +58,6 @@ const Post = ({ urlImage }) => {
             </View>
 
             <View style={{ paddingTop: 10, }}>
-                {/* <AppText content={'title of post'} /> */}
                 <AppText content={auth.currentUser?.email} />
                 {/* image posted */}
                 <Image source={urlImage} style={{

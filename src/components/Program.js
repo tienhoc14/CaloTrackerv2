@@ -3,11 +3,10 @@ import React from 'react'
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import AppText from './AppText';
-import imgHomeWorkout from '../../assets/images/home_workout.png'
-import imgHomeWorkout2 from '../../assets/images/w_homeworkout.webp'
 import { useNavigation } from '@react-navigation/native';
+import color from '../styles/color';
 
-const Program = ({ category }) => {
+const Program = ({ category, poster, time, title, list }) => {
 
     const navigation = useNavigation();
 
@@ -23,57 +22,34 @@ const Program = ({ category }) => {
                 style={{ flexDirection: 'row', marginTop: 15, }}
                 showsHorizontalScrollIndicator={false}
             >
-                <TouchableOpacity
-                    activeOpacity={0.5}
-                    onPress={() => {
-                        navigation.navigate('DetailProgram')
-                    }}
-                    style={{
-                        backgroundColor: '#fff',
-                        borderRadius: 20,
-                        marginRight: 20,
-                    }}>
-                    <Image source={imgHomeWorkout} style={{
-                        height: 180,
-                        width: Dimensions.get("window").width - 70,
-                        borderTopLeftRadius: 20,
-                        borderTopRightRadius: 20,
-                    }} />
+                {list.map((value) => (
+                    <TouchableOpacity key={value.title}
+                        activeOpacity={0.5}
+                        onPress={() => {
+                            navigation.navigate('Detail Program')
+                        }}
+                        style={{
+                            backgroundColor: '#fff',
+                            borderRadius: 20,
+                            marginRight: 20,
+                        }}>
+                        <Image source={value.poster} style={{
+                            height: 180,
+                            width: Dimensions.get("window").width - 70,
+                            borderTopLeftRadius: 20,
+                            borderTopRightRadius: 20,
+                        }} />
 
-                    <View style={{ alignItems: 'center', paddingTop: 10, }}>
-                        <View style={{ flexDirection: 'row' }}>
-                            <MaterialCommunityIcons name="timer" size={18} color="grey" />
-                            <AppText content={'30:00'} />
+                        <View style={{ alignItems: 'center', paddingTop: 10, }}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <MaterialCommunityIcons name="timer" size={18} color={"grey"} style={{ marginRight: 5 }} />
+                                <AppText content={value.time} />
+                            </View>
+                            <AppText content={value.title} fontSize={16} fontWeight='bold' />
                         </View>
-                        <AppText content={'30 minute circuit training'} fontSize={16} fontWeight='bold' />
-                    </View>
-                </TouchableOpacity>
+                    </TouchableOpacity>
+                ))}
 
-                <TouchableOpacity
-                    activeOpacity={0.5}
-                    onPress={() => {
-                        navigation.navigate('DetailProgram')
-                    }}
-                    style={{
-                        backgroundColor: '#fff',
-                        borderRadius: 20,
-                        marginRight: 20,
-                    }}>
-                    <Image source={imgHomeWorkout2} style={{
-                        height: 180,
-                        width: Dimensions.get("window").width - 70,
-                        borderTopLeftRadius: 20,
-                        borderTopRightRadius: 20,
-                    }} />
-
-                    <View style={{ alignItems: 'center', paddingTop: 10, }}>
-                        <View style={{ flexDirection: 'row' }}>
-                            <MaterialCommunityIcons name="timer" size={18} color="grey" />
-                            <AppText content={'25:00'} />
-                        </View>
-                        <AppText content={'Yoga for beginner'} fontSize={16} fontWeight='bold' />
-                    </View>
-                </TouchableOpacity>
             </ScrollView>
         </View>
     )

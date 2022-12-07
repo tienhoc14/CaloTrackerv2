@@ -9,10 +9,28 @@ import { useNavigation } from '@react-navigation/native';
 import AppText from '../components/AppText';
 import color from '../styles/color';
 import TrackingNavigation from '../navigations/TrackingNavigation';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { db } from '../../firebaseConfig';
+import Food from '../components/Food';
 
 const TrackingScreen = ({ route }) => {
     const { mealTitle, date } = route.params
     const navigation = useNavigation()
+    const [foodsMatch, setFoodsMatch] = useState()
+    const [txtSearch, setTxtSearch] = useState()
+
+    const searchHandler = async (text) => {
+        const sname = text.toLowerCase()
+        const q = query(collection(db, "food"), where("sname", ">=", sname),
+            where('sname', '<=', sname + '\uf8ff'));
+
+        var data = []
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            data.push(doc.data())
+        });
+        setFoodsMatch(data)
+    }
 
     return (
         <View style={style.container}>
@@ -49,16 +67,32 @@ const TrackingScreen = ({ route }) => {
                 }}>
                     <EvilIcons name="search" size={24} color="black" style={{ marginHorizontal: 5, }} />
                     <TextInput
+                        value={txtSearch}
                         style={{ flex: 1, fontFamily: 'monospace' }}
-                        placeholder='Search for a food' />
+                        placeholder='Search for a food'
+                        onChangeText={searchHandler} />
+                    <MaterialIcons name="cancel" size={24} color="grey" style={{ marginHorizontal: 8, }}
+                        onPress={() => {
+                            setTxtSearch("")
+                            setFoodsMatch()
+                        }} />
                 </View>
 
                 <TouchableOpacity>
-                    <MaterialIcons name="qr-code-scanner" size={24} color={color.PrimaryColor} />
+                    <MaterialIcons name="qr-code-scanner" size={24} color={color.PrimaryColor}
+                        onPress={() => { }} />
                 </TouchableOpacity>
             </View>
 
-            <TrackingNavigation mealTitle={mealTitle} date={date} />
+
+            {foodsMatch && <AppText content={'SEARCH RESULTS'} />}
+            {foodsMatch ?
+                foodsMatch.map((food) => (
+                    <Food key={food.name} foodTitle={food.name} mealTitle={mealTitle} date={date}
+                        calo={food.kcal} quantity={food.size} unit={food.unit}
+                        carbs={food.carbs} fat={food.fat} protein={food.protein} />)) :
+
+                <TrackingNavigation mealTitle={mealTitle} date={date} />}
 
         </View>
     )

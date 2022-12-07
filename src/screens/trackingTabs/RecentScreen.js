@@ -35,7 +35,8 @@ const RecentScreen = ({ mealTitle, date }) => {
 
             {allFood.map((value, index) => {
                 return <Food key={index} foodTitle={value.name} mealTitle={mealTitle} date={date}
-                    calo={value.kcal} quantity={value.size} unit={value.unit} />
+                    calo={value.kcal} quantity={value.size} unit={value.unit}
+                    carbs={value.carbs} fat={value.fat} protein={value.protein} />
             })}
         </View>
     )

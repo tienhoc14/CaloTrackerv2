@@ -10,6 +10,7 @@ import DetailProgram from '../screens/workoutTabs/DetailProgram';
 import UpdateGoal from '../screens/profile/UpdateGoal';
 import MacroScreen from '../screens/profile/MacroScreen';
 import RoutineScreen from '../screens/profile/RoutineScreen';
+import DetailExercise from '../screens/workoutTabs/DetailExercise';
 
 const Stack = createNativeStackNavigator()
 
@@ -35,7 +36,9 @@ const AppStack = () => {
             <Stack.Screen name='FoodDetails' component={FoodDetails} options={{
                 headerTitle: 'Food Details'
             }} />
-            <Stack.Screen name='DetailProgram' component={DetailProgram} />
+
+            <Stack.Screen name='Detail Program' component={DetailProgram} />
+            <Stack.Screen name='Detail Exercise' component={DetailExercise} />
 
         </Stack.Navigator>
     )

@@ -6,9 +6,9 @@ import { useNavigation } from '@react-navigation/native';
 
 import { Entypo } from '@expo/vector-icons';
 import { auth, db } from '../../firebaseConfig';
-import { arrayRemove, arrayUnion, doc, getDoc, setDoc } from 'firebase/firestore';
+import { arrayRemove, arrayUnion, doc, getDoc, increment, setDoc } from 'firebase/firestore';
 
-const Food = ({ foodTitle, calo, quantity, unit, mealTitle, date }) => {
+const Food = ({ foodTitle, calo, quantity, unit, mealTitle, date, carbs, fat, protein }) => {
 
     const navigation = useNavigation()
     const [oldMeal, setOldMeal] = useState()
@@ -54,6 +54,11 @@ const Food = ({ foodTitle, calo, quantity, unit, mealTitle, date }) => {
                     quantity: quantity + food.quantity,
                     kcal: (quantity + food.quantity) / quantity * calo
                 }),
+                macros: {
+                    carbs: increment(carbs),
+                    fat: increment(fat),
+                    protein: increment(protein),
+                }
             }
         }, { merge: true });
 
@@ -73,7 +78,7 @@ const Food = ({ foodTitle, calo, quantity, unit, mealTitle, date }) => {
 
     return (
         <TouchableOpacity
-            onPress={() => {
+            onPress={async () => {
                 // navigation.navigate('FoodDetails', {
                 //     foodTitle: foodTitle
                 // })

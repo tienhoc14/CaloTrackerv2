@@ -13,13 +13,14 @@ import { auth, db } from '../../../firebaseConfig'
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useNavigation } from '@react-navigation/native'
 
-const DiaryScreen = ({ }) => {
+const DiaryScreen = () => {
 
   const navigation = useNavigation()
   const [isLoading, setIsLoading] = useState(false)
 
   const [profile, setProfile] = useState({})
-  const [macros, setMacros] = useState({})
+  const [macrosGoal, setMacrosGoal] = useState({ carbs: 0, protein: 0, fat: 0 })
+  const [macro, setMacro] = useState({ carbs: 0, protein: 0, fat: 0 })
 
   const [dateNow, setDateNow] = useState(new Date())
   const date = dateNow
@@ -51,12 +52,13 @@ const DiaryScreen = ({ }) => {
     setProfile(docSnap.data())
 
     const docMacros = await getDoc(doc(db, "macronutrients", auth.currentUser?.email))
-    setMacros(docMacros.data())
+    setMacrosGoal(docMacros.data())
 
     const docDiary = await getDoc(doc(db, "diary", auth.currentUser?.email))
 
     let arr = []
     try {
+      setMacro(docDiary.data()[date.toLocaleDateString()].macros)
       arr.push(docDiary.data()[date.toLocaleDateString()].Breakfast)
       arr.push(docDiary.data()[date.toLocaleDateString()].Lunch)
       arr.push(docDiary.data()[date.toLocaleDateString()].Dinner)
@@ -67,6 +69,7 @@ const DiaryScreen = ({ }) => {
       setDinner(arr[2])
       setSnack(arr[3])
     } catch (err) {
+      setMacro({ carbs: 0, protein: 0, fat: 0 })
       setBreakfast()
       setLunch()
       setDinner()
@@ -191,15 +194,15 @@ const DiaryScreen = ({ }) => {
         }}>
         <View style={{ alignItems: 'center', flex: 1, }}>
           <AppText content={'Carbs'} />
-          <AppText content={`0/${Math.round(profile.daily_kcal * macros.carbs / 100 / 4)}g`} />
+          <AppText content={`${Math.round(macro.carbs)}/${Math.round(profile.daily_kcal * macrosGoal.carbs / 100 / 4)}g`} />
         </View>
         <View style={{ alignItems: 'center', flex: 1, }}>
           <AppText content={'Protein'} />
-          <AppText content={`0/${Math.round(profile.daily_kcal * macros.pro / 100 / 4)}g`} />
+          <AppText content={`${Math.round(macro.protein)}/${Math.round(profile.daily_kcal * macrosGoal.pro / 100 / 4)}g`} />
         </View>
         <View style={{ alignItems: 'center', flex: 1, }}>
           <AppText content={'Fat'} />
-          <AppText content={`0/${Math.round(profile.daily_kcal * macros.fat / 100 / 9)}g`} />
+          <AppText content={`${Math.round(macro.fat)}/${Math.round(profile.daily_kcal * macrosGoal.fat / 100 / 9)}g`} />
         </View>
       </TouchableOpacity>
 

@@ -41,10 +41,14 @@ const Meal = ({ mealTitle, description, calo, date, foods }) => {
                 </View>
                 <TouchableOpacity
                     onPress={() => {
-                        navigation.navigate('Tracking', {
-                            mealTitle: mealTitle,
-                            date: date
-                        })
+                        if (mealTitle == "Exercise") {
+                            navigation.navigate('Workout')
+                        } else {
+                            navigation.navigate('Tracking', {
+                                mealTitle: mealTitle,
+                                date: date
+                            })
+                        }
                     }}>
                     <Ionicons name="ios-add-circle" size={30} color={'#ccc'} />
                 </TouchableOpacity>

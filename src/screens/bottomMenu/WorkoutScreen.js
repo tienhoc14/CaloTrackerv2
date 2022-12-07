@@ -10,13 +10,12 @@ import color from '../../styles/color';
 const Tab = createMaterialTopTabNavigator();
 
 const WorkoutScreen = () => {
+
   return (
     <View
       style={style.container}
     >
-
       <HeaderBar title={'Workout'} />
-
       <Tab.Navigator
         screenOptions={{
           tabBarStyle: {
